@@ -1,0 +1,5 @@
+Ein Impressum ist wünschenswert, einerseits mit unseren eigene Namen, da wir es ja geschrieben haben, allerdings auch eine kurze aufzälung der Physiker, die daran Forschen, sowie die Quellenangabe zu Veröffentlichungen, die das Thema behandeln.
+
+Ich vermute mal, das die Vorlesung ja mit dem Projekt was zu tun haben soll. Wenn wir übermotiviert sind, werden wir mal bei gegebener Zeit eine User-Analyse unseres Interface durchführen müssen (mit Verwandten oder so...). Das ist auch gut um Fehler zu finden.
+
+Kann jemand zeichen? Ich nicht.
