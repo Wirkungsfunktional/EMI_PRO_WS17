@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.pm.ConfigurationInfo;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -21,6 +23,9 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
     public static final int PRECI_OF_SEEK_BARS = 100000;
     private SeekBar[] seekBarsList = new SeekBar[NUMBER_OF_SEEK_BARS];
     private String[] seekBarID = {"seekBarQ1", "seekBarP1","seekBarQ2", "seekBarP2", "seekBarK", "seekBarK1", "seekBarK2"};
+    private Button sliceOptionButton;
+    private boolean sliceOpt = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,12 +58,24 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
             seekBarsList[i].setMax(PRECI_OF_SEEK_BARS);
             seekBarsList[i].setOnSeekBarChangeListener(this);
         }
-
-
-
-
-
         textView1 = (TextView) findViewById(R.id.textShow);
+
+        sliceOptionButton = findViewById(R.id.sliceOptionButton);
+        sliceOptionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (sliceOpt == false) {
+                    openGLRenderer.setPlotOption(2);
+                    sliceOpt = true;
+                } else {
+                    openGLRenderer.setPlotOption(1);
+                    sliceOpt = false;
+                }
+            }
+        });
+
+
+
     }
 
     @Override

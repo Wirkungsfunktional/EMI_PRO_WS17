@@ -52,7 +52,7 @@ class OpenGLRenderer implements GLSurfaceView.Renderer, SensorEventListener {
     private static final int BYTES_PER_FLOAT = 4;
     private static final int COLOR_COMPONENT_COUNT = 0;
     private static final int STRIDE = (POSITION_COMPONENT_COUNT + COLOR_COMPONENT_COUNT) *BYTES_PER_FLOAT;
-    private static final int NUMBER_OF_POINTS = 2000;
+    private static final int NUMBER_OF_POINTS = 1000;
 
     private final FloatBuffer vertexData;
     private int program;
@@ -65,6 +65,7 @@ class OpenGLRenderer implements GLSurfaceView.Renderer, SensorEventListener {
     private float[] mRotationMatrix = new float[16];
     private float z = 0f, x=0f, y=0f;
     float q01=0f, q02=0f, p01=0f, p02=0f;
+    private int plotOption = 1;
 
     float p2 = (float) 0.0633235322944;//-0.016;
     float K1 = 2.25f;
@@ -95,6 +96,45 @@ class OpenGLRenderer implements GLSurfaceView.Renderer, SensorEventListener {
         pointArray[3*NUMBER_OF_POINTS - 3] = (pointArray[3*NUMBER_OF_POINTS - 3] - 0.5f) * 2.0f;
         pointArray[3*NUMBER_OF_POINTS - 2] = (pointArray[3*NUMBER_OF_POINTS - 2] - 0.5f) * 2.0f;
         pointArray[3*NUMBER_OF_POINTS - 1] = (pointArray[3*NUMBER_OF_POINTS - 1]       ) * 2.0f;
+    }
+
+    private void makeSlice() {
+        float q1, q2, p1, p22;
+        int i = 0;
+        int overflowCheck = 0;
+        q1 = pointArray[0];
+        q2 = pointArray[1];
+        p1 = pointArray[2];
+        p22 = p2;
+        while (i < NUMBER_OF_POINTS) {
+            overflowCheck++;
+            q1 = (q1 + p1 + 10.0f) % 1.0f;
+            q2 = (q2 + p22 + 10.0f) % 1.0f;
+            p1 = (float) (p1 + K1 / (2f*Math.PI) * Math.sin(2f * Math.PI * q1)
+                        + A / (2f * Math.PI) * Math.sin(2f * Math.PI * (q1 + q2)));
+            p22 = (float) (p22 + K2 / (2f*Math.PI) * Math.sin(2f * Math.PI * q2)
+                        + A / (2f * Math.PI) * Math.sin(2f * Math.PI * (q1 + q2)));
+
+
+            p1 = ((p1 + 10.5f) % 1.0f ) - 0.5f;
+            p22 = ((p22 + 10.5f) % 1.0f ) - 0.5f;
+
+            if (Math.abs(p22 - p2) < 0.001f) {
+                i++;
+                pointArray[3*i - 3] = (q1 - 0.5f) * 2.0f;
+                pointArray[3*i - 2] = (q2 - 0.5f) * 2.0f;
+                pointArray[3*i - 1] = (p1       ) * 2.0f;
+            }
+            if (overflowCheck > 100000L) {
+                while (i < NUMBER_OF_POINTS) {
+                    i++;
+                    pointArray[3*i - 3] = 0.0f;
+                    pointArray[3*i - 2] = 0.0f;
+                    pointArray[3*i - 1] = 0.0f;
+                }
+                break;
+            }
+        }
     }
 
 
@@ -254,7 +294,12 @@ class OpenGLRenderer implements GLSurfaceView.Renderer, SensorEventListener {
         pointArray[1] = q02;
         p2 = p02;
 
-        calcData();
+        if (plotOption == 1) {
+            calcData();
+        }
+        if (plotOption == 2) {
+            makeSlice();
+        }
         vertexData.put(pointArray);
         vertexData.position(0);
     }
@@ -279,6 +324,9 @@ class OpenGLRenderer implements GLSurfaceView.Renderer, SensorEventListener {
     }
     public float getP02() {
         return p02;
+    }
+    public void setPlotOption(int i) {
+        plotOption = i;
     }
 
 }
