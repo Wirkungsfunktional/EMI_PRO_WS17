@@ -19,12 +19,14 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
     private TextView textView1;
     private int p1, p2, q1, q2;
     private OpenGLRenderer openGLRenderer;
-    private static final int NUMBER_OF_SEEK_BARS = 7;
+    private static final int NUMBER_OF_SEEK_BARS = 8;
     public static final int PRECI_OF_SEEK_BARS = 100000;
     private SeekBar[] seekBarsList = new SeekBar[NUMBER_OF_SEEK_BARS];
-    private String[] seekBarID = {"seekBarQ1", "seekBarP1","seekBarQ2", "seekBarP2", "seekBarK", "seekBarK1", "seekBarK2"};
+    private String[] seekBarID = {"seekBarQ1", "seekBarP1","seekBarQ2", "seekBarP2", "seekBarK", "seekBarK1", "seekBarK2", "seekBarSlice"};
     private Button sliceOptionButton;
+    private Button minusOptionButton;
     private boolean sliceOpt = false;
+    private boolean minusOption = false;
 
 
     @Override
@@ -70,6 +72,19 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
                 } else {
                     openGLRenderer.setPlotOption(1);
                     sliceOpt = false;
+                }
+            }
+        });
+        minusOptionButton = findViewById(R.id.minusOptionButton);
+        minusOptionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (minusOption == false) {
+                    openGLRenderer.setMinusOption(-1.0f);
+                    minusOption = true;
+                } else {
+                    openGLRenderer.setMinusOption(1.0f);
+                    minusOption = false;
                 }
             }
         });
@@ -122,6 +137,9 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
                 opt = 3;
                 K = i;
                 break;
+            case R.id.seekBarSlice:
+                opt = 4;
+                K = i;
         }
         openGLRenderer.updateData(q1, q2, p1, p2, K, opt);
         textView1.setText("q1: " + openGLRenderer.getQ01() + " q2: " + openGLRenderer.getQ02()
