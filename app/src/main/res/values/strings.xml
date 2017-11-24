@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Røyndom</string>
     <string name="sliceOptionButtonLabel">Slice Option</string>
+    <string name="minusOptionButtonLabel">Minus Option</string>
 </resources>

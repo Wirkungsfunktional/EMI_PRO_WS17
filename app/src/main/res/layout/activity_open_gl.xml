@@ -16,54 +16,83 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <Button
-            android:id="@+id/sliceOptionButton"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/sliceOptionButtonLabel" />
+            android:layout_height="95dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
 
-        <SeekBar
-            android:id="@+id/seekBarQ1"
+            <Button
+                android:id="@+id/sliceOptionButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/sliceOptionButtonLabel" />
+
+            <Button
+                android:id="@+id/minusOptionButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/minusOptionButtonLabel" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/seekBarLayer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-        <SeekBar
-            android:id="@+id/seekBarP1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <SeekBar
+                android:id="@+id/seekBarQ1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-        <SeekBar
-            android:id="@+id/seekBarQ2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <SeekBar
+                android:id="@+id/seekBarP1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-        <SeekBar
-            android:id="@+id/seekBarP2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <SeekBar
+                android:id="@+id/seekBarQ2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-        <TextView
-            android:id="@+id/textShow"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView"
-            android:textColor="@android:color/background_light" />
+            <SeekBar
+                android:id="@+id/seekBarP2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-        <SeekBar
-            android:id="@+id/seekBarK"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/textShow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textColor="@android:color/background_light" />
 
-        <SeekBar
-            android:id="@+id/seekBarK1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <SeekBar
+                android:id="@+id/seekBarK"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-        <SeekBar
-            android:id="@+id/seekBarK2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <SeekBar
+                android:id="@+id/seekBarK1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
+            <SeekBar
+                android:id="@+id/seekBarK2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <SeekBar
+                android:id="@+id/seekBarSlice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
     </LinearLayout>
 
 </FrameLayout>
