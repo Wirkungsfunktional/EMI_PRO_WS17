@@ -6,22 +6,24 @@ package wirkungsfunktional.de.emiProjectWS17.utils;
 
 public class Simulator {
 
-
     float[] dataArray;
+
+
+
     private static int NUMBER_OF_POINTS;
-    private static final int POSITION_COMPONENT_COUNT = 3;
 
 
     OrbitDataBundle initData;
     float[] initPoints;
     float[] simSettings;
     int[] simOptions;
-    float twoPi = 2.0f* (float) Math.PI;
+    float TWOPI = 2.0f* (float) Math.PI;
 
 
     public Simulator(int Iterations) {
         NUMBER_OF_POINTS = Iterations;
-        dataArray = new float[POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS + POSITION_COMPONENT_COUNT*6];
+        dataArray = new float[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS
+                                + GeneralConstants.POSITION_COMPONENT_COUNT*6];
         initData = new OrbitDataBundle();
 
     }
@@ -33,31 +35,43 @@ public class Simulator {
         dataArray[2] = initPoints[2];
         float p2 = initPoints[3];
         float sinQ12;
-        float A = simSettings[0] / twoPi;
-        float K1 = simSettings[1] / twoPi;
-        float K2 = simSettings[2] / twoPi;
+        float A = simSettings[0] / TWOPI;
+        float K1 = simSettings[1] / TWOPI;
+        float K2 = simSettings[2] / TWOPI;
         float sign = (float) simOptions[1];
 
 
         for (int i=1; i < NUMBER_OF_POINTS ; i++) {
-            dataArray[3*i] = (dataArray[3*i - 3] + dataArray[3*i - 1]+ 10.0f) % 1.0f;
-            dataArray[3*i+1] = (dataArray[3*i - 2] + sign*p2 + 10.0f) % 1.0f;
-            sinQ12 = (float) Math.sin(twoPi * (dataArray[3*i] + dataArray[3*i+1]));
+            dataArray[3*i] = (dataArray[3*i - 3] + dataArray[3*i - 1]
+                    + GeneralConstants.MODUL_SAFTY_GUARD) % GeneralConstants.TORUS_MODUL_SIZE;
+            dataArray[3*i+1] = (dataArray[3*i - 2] + sign*p2 + GeneralConstants.MODUL_SAFTY_GUARD)
+                    % GeneralConstants.TORUS_MODUL_SIZE;
+            sinQ12 = (float) Math.sin(TWOPI * (dataArray[3*i] + dataArray[3*i+1]));
 
 
-            dataArray[3*i+2] = ((dataArray[3*i - 1] + K1 *  (float) Math.sin(twoPi * dataArray[3*i])
-                        + A * sinQ12 + 10.5f) % 1.0f ) - 0.5f;
-            p2 = ((p2 + K2 * (float) Math.sin(twoPi * dataArray[3*i+1])
-                        + A * sinQ12 + 10.5f) % 1.0f )  - 0.5f;
+            dataArray[3*i+2] = ((dataArray[3*i - 1] + K1 *  (float) Math.sin(TWOPI * dataArray[3*i])
+                        + A * sinQ12 + GeneralConstants.MODUL_SAFTY_GUARD
+                        + GeneralConstants.P_INTERVALL_END) % GeneralConstants.TORUS_MODUL_SIZE )
+                        + GeneralConstants.P_INTERVALL_START;
+            p2 = ((p2 + K2 * (float) Math.sin(TWOPI * dataArray[3*i+1])
+                        + A * sinQ12 + GeneralConstants.MODUL_SAFTY_GUARD
+                        + GeneralConstants.P_INTERVALL_END) % GeneralConstants.TORUS_MODUL_SIZE )
+                        + GeneralConstants.P_INTERVALL_START;
 
 
-            dataArray[3*i - 3] = (dataArray[3*i - 3] - 0.5f) * 2.0f;
-            dataArray[3*i - 2] = (dataArray[3*i - 2] - 0.5f) * 2.0f;
-            dataArray[3*i - 1] = (dataArray[3*i - 1]       ) * 2.0f;
+            dataArray[3*i - 3] = (dataArray[3*i - 3] + GeneralConstants.P_INTERVALL_START)
+                                    * GeneralConstants.SCALING_FACTOR;
+            dataArray[3*i - 2] = (dataArray[3*i - 2] + GeneralConstants.P_INTERVALL_START)
+                                    * GeneralConstants.SCALING_FACTOR;
+            dataArray[3*i - 1] = (dataArray[3*i - 1])
+                                    * GeneralConstants.SCALING_FACTOR;
         }
-        dataArray[3*NUMBER_OF_POINTS - 3] = (dataArray[3*NUMBER_OF_POINTS - 3] - 0.5f) * 2.0f;
-        dataArray[3*NUMBER_OF_POINTS - 2] = (dataArray[3*NUMBER_OF_POINTS - 2] - 0.5f) * 2.0f;
-        dataArray[3*NUMBER_OF_POINTS - 1] = (dataArray[3*NUMBER_OF_POINTS - 1]       ) * 2.0f;
+        dataArray[3*NUMBER_OF_POINTS - 3] = (dataArray[3*NUMBER_OF_POINTS - 3]
+                        + GeneralConstants.P_INTERVALL_START) * GeneralConstants.SCALING_FACTOR;
+        dataArray[3*NUMBER_OF_POINTS - 2] = (dataArray[3*NUMBER_OF_POINTS - 2]
+                        + GeneralConstants.P_INTERVALL_START) * GeneralConstants.SCALING_FACTOR;
+        dataArray[3*NUMBER_OF_POINTS - 1] = (dataArray[3*NUMBER_OF_POINTS - 1])
+                        * GeneralConstants.SCALING_FACTOR;
     }
 
 
@@ -70,9 +84,9 @@ public class Simulator {
         p1 = initPoints[2];
         p2 = initPoints[3];
         float sinQ12;
-        float A = simSettings[0]/ twoPi;
-        float K1 = simSettings[1]/ twoPi;
-        float K2 = simSettings[2]/ twoPi;
+        float A = simSettings[0]/ TWOPI;
+        float K1 = simSettings[1]/ TWOPI;
+        float K2 = simSettings[2]/ TWOPI;
         float sign = (float) simOptions[1];
         float pSlice = initData.getpSlice();
 
@@ -80,21 +94,27 @@ public class Simulator {
 
         while (i < NUMBER_OF_POINTS) {
             overflowCheck++;
-            q1 = (q1 + p1 + 10.0f) % 1.0f;
-            q2 = (q2 + sign*p2 + 10.0f) % 1.0f;
-            sinQ12 = (float) Math.sin(twoPi * (q1 + q2));
+            q1 = (q1 + p1 + GeneralConstants.MODUL_SAFTY_GUARD) % GeneralConstants.TORUS_MODUL_SIZE;
+            q2 = (q2 + sign*p2 + GeneralConstants.MODUL_SAFTY_GUARD) % GeneralConstants.TORUS_MODUL_SIZE;
+            sinQ12 = (float) Math.sin(TWOPI * (q1 + q2));
 
-            p1 = (float) ((p1 + K1 * Math.sin(twoPi * q1) + A * sinQ12 + 10.5f) % 1.0f ) - 0.5f;
-            p2 = (float) ((p2 + K2 * Math.sin(twoPi * q2) + A * sinQ12 + 10.5f) % 1.0f ) - 0.5f;
+            p1 = (float) ((p1 + K1 * Math.sin(TWOPI * q1) + A * sinQ12
+                    + GeneralConstants.MODUL_SAFTY_GUARD + GeneralConstants.P_INTERVALL_END)
+                    % GeneralConstants.TORUS_MODUL_SIZE ) + GeneralConstants.P_INTERVALL_START;
+            p2 = (float) ((p2 + K2 * Math.sin(TWOPI * q2) + A * sinQ12
+                    + GeneralConstants.MODUL_SAFTY_GUARD + GeneralConstants.P_INTERVALL_END)
+                    % GeneralConstants.TORUS_MODUL_SIZE ) + GeneralConstants.P_INTERVALL_START;
 
 
-            if (Math.abs(p2 - pSlice) < 0.001f) {
+            if (Math.abs(p2 - pSlice) < GeneralConstants.SLICE_SIZE) {
                 i++;
-                dataArray[3*i - 3] = (q1 - 0.5f) * 2.0f;
-                dataArray[3*i - 2] = (q2 - 0.5f) * 2.0f;
-                dataArray[3*i - 1] = (p1       ) * 2.0f;
+                dataArray[3*i - 3] = (q1 + GeneralConstants.P_INTERVALL_START)
+                                        * GeneralConstants.SCALING_FACTOR;
+                dataArray[3*i - 2] = (q2 + GeneralConstants.P_INTERVALL_START)
+                                        * GeneralConstants.SCALING_FACTOR;
+                dataArray[3*i - 1] = (p1) * GeneralConstants.SCALING_FACTOR;
             }
-            if (overflowCheck > 100000L) {
+            if (overflowCheck > GeneralConstants.OVERFLOW_BOUNDARY) {
                 while (i < NUMBER_OF_POINTS) {
                     i++;
                     dataArray[3*i - 3] = 0.0f;
@@ -146,18 +166,26 @@ public class Simulator {
     }
 
     public void switchSliceOption() {
-        if (initData.getSlice() == 1) {
-            initData.setSlice(2);
-        } else if (initData.getSlice() == 2) {
-            initData.setSlice(1);
+        if (initData.getSlice() == GeneralConstants.NORMAL_PLOT_FLAG) {
+            initData.setSlice(GeneralConstants.SLICE_PLOT_FLAG);
+        } else if (initData.getSlice() == GeneralConstants.SLICE_PLOT_FLAG) {
+            initData.setSlice(GeneralConstants.NORMAL_PLOT_FLAG);
         }
     }
     public void switchMinusOption() {
-        if (initData.getMinus() == 1) {
-            initData.setMinus(-1);
-        } else if (initData.getSlice() == -1) {
-            initData.setMinus(1);
+        if (initData.getMinus() == GeneralConstants.POSITIV_SIGN) {
+            initData.setMinus(GeneralConstants.NEGATIV_SIGN);
+        } else if (initData.getSlice() == GeneralConstants.NEGATIV_SIGN) {
+            initData.setMinus(GeneralConstants.POSITIV_SIGN);
         }
+    }
+
+    public static int getNumberOfPoints() {
+        return NUMBER_OF_POINTS;
+    }
+
+    public static void setNumberOfPoints(int numberOfPoints) {
+        NUMBER_OF_POINTS = numberOfPoints;
     }
 
 

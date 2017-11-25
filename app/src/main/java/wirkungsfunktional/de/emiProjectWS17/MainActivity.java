@@ -13,6 +13,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import wirkungsfunktional.de.emiProjectWS17.utils.GeneralConstants;
 import wirkungsfunktional.de.emiProjectWS17.utils.OrbitDataBundle;
 import wirkungsfunktional.de.emiProjectWS17.utils.Simulator;
 
@@ -22,7 +23,6 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
     private TextView textView1;
     private OpenGLRenderer openGLRenderer;
     private static final int NUMBER_OF_SEEK_BARS = 8;
-    public static final int PRECI_OF_SEEK_BARS = 100000;
     private SeekBar[] seekBarsList = new SeekBar[NUMBER_OF_SEEK_BARS];
     private String[] seekBarID = {"seekBarQ1", "seekBarP1","seekBarQ2", "seekBarP2", "seekBarK",
             "seekBarK1", "seekBarK2", "seekBarSlice"};
@@ -61,7 +61,7 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
         for (int i=0; i<NUMBER_OF_SEEK_BARS;i++) {
             int resID = getResources().getIdentifier(seekBarID[i], "id", getPackageName());
             seekBarsList[i] = (SeekBar) findViewById(resID);
-            seekBarsList[i].setMax(PRECI_OF_SEEK_BARS);
+            seekBarsList[i].setMax(GeneralConstants.PRECI_OF_SEEK_BARS);
             seekBarsList[i].setOnSeekBarChangeListener(this);
         }
         textView1 = (TextView) findViewById(R.id.textShow);
@@ -106,17 +106,17 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
     @Override
     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
         OrbitDataBundle data = simulator.getInitData();
-        float value = (float) i / PRECI_OF_SEEK_BARS;
+        float value = (float) i / GeneralConstants.PRECI_OF_SEEK_BARS;
 
         switch (seekBar.getId()) {
             case R.id.seekBarQ1:
                 data.setQ1(value);
                 break;
             case R.id.seekBarP1:
-                data.setP1(value - 0.5f);
+                data.setP1(value + GeneralConstants.P_INTERVALL_START);
                 break;
             case R.id.seekBarP2:
-                data.setP2(value - 0.5f);
+                data.setP2(value + GeneralConstants.P_INTERVALL_START);
                 break;
             case R.id.seekBarQ2:
                 data.setQ2(value);
@@ -131,7 +131,7 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
                 data.setK2(3.0f * value);
                 break;
             case R.id.seekBarSlice:
-                data.setpSlice(value - 0.5f);
+                data.setpSlice(value + GeneralConstants.P_INTERVALL_START);
         }
         simulator.setInitData(data);
         openGLRenderer.updateData(simulator);

@@ -16,6 +16,7 @@ import java.nio.FloatBuffer;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import wirkungsfunktional.de.emiProjectWS17.utils.GeneralConstants;
 import wirkungsfunktional.de.emiProjectWS17.utils.LogContainer;
 import wirkungsfunktional.de.emiProjectWS17.utils.OrbitDataBundle;
 import wirkungsfunktional.de.emiProjectWS17.utils.ProgramConstructionContainer;
@@ -54,12 +55,11 @@ class OpenGLRenderer implements GLSurfaceView.Renderer, SensorEventListener {
     private static final String U_COLOR = "u_Color";
 
     private final Context context;
-
-    private static final int POSITION_COMPONENT_COUNT = 3;
     private static final int BYTES_PER_FLOAT = 4;
     private static final int COLOR_COMPONENT_COUNT = 0;
-    private static final int STRIDE = (POSITION_COMPONENT_COUNT + COLOR_COMPONENT_COUNT) *BYTES_PER_FLOAT;
-    private static final int NUMBER_OF_POINTS = 1000;
+    private static final int STRIDE = (GeneralConstants.POSITION_COMPONENT_COUNT
+            + COLOR_COMPONENT_COUNT) *BYTES_PER_FLOAT;
+    private static int NUMBER_OF_POINTS;
 
     private final FloatBuffer vertexData;
     private int program;
@@ -75,40 +75,37 @@ class OpenGLRenderer implements GLSurfaceView.Renderer, SensorEventListener {
     float[] pointArray;
 
     private SensorManager sensorManager;
-    private static final float PRECI_OF_SEEK_BARS_DIV = (float) MainActivity.PRECI_OF_SEEK_BARS;
-
-
-
 
 
 
     public OpenGLRenderer(Context context, Simulator simulator) {
         this.context = context;
+        NUMBER_OF_POINTS = simulator.getNumberOfPoints();
         simulator.setInitData(new OrbitDataBundle());
         simulator.run();
         pointArray = simulator.getDataArray();
 
         // Add points for the lines of the coordinate system
-        pointArray[POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS    ] = -1f;
-        pointArray[POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS + 1] =  0f;
-        pointArray[POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS + 2] =  0f;
-        pointArray[POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS + 3] =  1f;
-        pointArray[POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS + 4] =  0f;
-        pointArray[POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS + 5] =  0f;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS    ] = -1f;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS + 1] =  0f;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS + 2] =  0f;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS + 3] =  1f;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS + 4] =  0f;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS + 5] =  0f;
 
-        pointArray[POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS + 6] =  0f;
-        pointArray[POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS + 7] = -1f;
-        pointArray[POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS + 8] =  0f;
-        pointArray[POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS + 9] =  0f;
-        pointArray[POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +10] =  1f;
-        pointArray[POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +11] =  0f;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS + 6] =  0f;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS + 7] = -1f;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS + 8] =  0f;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS + 9] =  0f;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +10] =  1f;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +11] =  0f;
 
-        pointArray[POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +12] =  0f;
-        pointArray[POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +13] =  0f;
-        pointArray[POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +14] = -1f;
-        pointArray[POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +15] =  0f;
-        pointArray[POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +16] =  0f;
-        pointArray[POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +17] =  1f;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +12] =  0f;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +13] =  0f;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +14] = -1f;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +15] =  0f;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +16] =  0f;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +17] =  1f;
 
 
 
@@ -150,7 +147,7 @@ class OpenGLRenderer implements GLSurfaceView.Renderer, SensorEventListener {
         uMatrixLocation = glGetUniformLocation(program, U_MATRIX);
 
         vertexData.position(0);
-        glVertexAttribPointer(aPositionLocation, POSITION_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, vertexData);
+        glVertexAttribPointer(aPositionLocation, GeneralConstants.POSITION_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, vertexData);
         glEnableVertexAttribArray(aPositionLocation);
 
     }
