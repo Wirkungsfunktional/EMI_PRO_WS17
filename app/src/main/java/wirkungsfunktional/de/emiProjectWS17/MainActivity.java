@@ -13,20 +13,22 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import wirkungsfunktional.de.emiProjectWS17.utils.OrbitDataBundle;
+import wirkungsfunktional.de.emiProjectWS17.utils.Simulator;
+
 public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeListener {
     private GLSurfaceView glSurfaceView;
     private boolean rendererSet = false;
     private TextView textView1;
-    private int p1, p2, q1, q2;
     private OpenGLRenderer openGLRenderer;
     private static final int NUMBER_OF_SEEK_BARS = 8;
     public static final int PRECI_OF_SEEK_BARS = 100000;
     private SeekBar[] seekBarsList = new SeekBar[NUMBER_OF_SEEK_BARS];
-    private String[] seekBarID = {"seekBarQ1", "seekBarP1","seekBarQ2", "seekBarP2", "seekBarK", "seekBarK1", "seekBarK2", "seekBarSlice"};
+    private String[] seekBarID = {"seekBarQ1", "seekBarP1","seekBarQ2", "seekBarP2", "seekBarK",
+            "seekBarK1", "seekBarK2", "seekBarSlice"};
     private Button sliceOptionButton;
     private Button minusOptionButton;
-    private boolean sliceOpt = false;
-    private boolean minusOption = false;
+    private Simulator simulator;
 
 
     @Override
@@ -38,9 +40,11 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
         final ConfigurationInfo configurationInfo = activityManager.getDeviceConfigurationInfo();
         final boolean supportsEs2 = configurationInfo.reqGlEsVersion >= 0x20000;
 
+        simulator = new Simulator(1000);
+
         if (supportsEs2) {
             glSurfaceView.setEGLContextClientVersion(2);
-            openGLRenderer = new OpenGLRenderer(this);
+            openGLRenderer = new OpenGLRenderer(this, simulator);
             glSurfaceView.setRenderer(openGLRenderer);
             rendererSet = true;
         } else {
@@ -66,26 +70,17 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
         sliceOptionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (sliceOpt == false) {
-                    openGLRenderer.setPlotOption(2);
-                    sliceOpt = true;
-                } else {
-                    openGLRenderer.setPlotOption(1);
-                    sliceOpt = false;
-                }
+                simulator.switchSliceOption();
+                Toast.makeText(getApplicationContext(), "Change the Plot Option", Toast.LENGTH_LONG).show();
+
             }
         });
         minusOptionButton = findViewById(R.id.minusOptionButton);
         minusOptionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (minusOption == false) {
-                    openGLRenderer.setMinusOption(-1.0f);
-                    minusOption = true;
-                } else {
-                    openGLRenderer.setMinusOption(1.0f);
-                    minusOption = false;
-                }
+                simulator.switchMinusOption();
+                Toast.makeText(getApplicationContext(), "Change the Sign Option", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -110,42 +105,39 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-        int K=0, opt=0;
+        OrbitDataBundle data = simulator.getInitData();
+        float value = (float) i / PRECI_OF_SEEK_BARS;
 
         switch (seekBar.getId()) {
             case R.id.seekBarQ1:
-                q1 = i;
+                data.setQ1(value);
                 break;
             case R.id.seekBarP1:
-                p1 = i;
+                data.setP1(value - 0.5f);
                 break;
             case R.id.seekBarP2:
-                p2 = i;
+                data.setP2(value - 0.5f);
                 break;
             case R.id.seekBarQ2:
-                q2 = i;
+                data.setQ2(value);
                 break;
             case R.id.seekBarK:
-                opt = 1;
-                K = i;
+                data.setA(3.0f * value);
                 break;
             case R.id.seekBarK1:
-                opt = 2;
-                K = i;
+                data.setK1(3.0f * value);
                 break;
             case R.id.seekBarK2:
-                opt = 3;
-                K = i;
+                data.setK2(3.0f * value);
                 break;
             case R.id.seekBarSlice:
-                opt = 4;
-                K = i;
+                data.setpSlice(value - 0.5f);
         }
-        openGLRenderer.updateData(q1, q2, p1, p2, K, opt);
-        textView1.setText("q1: " + openGLRenderer.getQ01() + " q2: " + openGLRenderer.getQ02()
-                + " p1: " + openGLRenderer.getP01() + " p2: " + openGLRenderer.getP02() + " A: "
-                + openGLRenderer.getA() + " K1: " + openGLRenderer.getK1() + " K2: "
-                + openGLRenderer.getK2());
+        simulator.setInitData(data);
+        openGLRenderer.updateData(simulator);
+
+
+        textView1.setText("q1:");
     }
 
     @Override

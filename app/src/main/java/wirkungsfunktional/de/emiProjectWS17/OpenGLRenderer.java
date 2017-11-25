@@ -16,6 +16,13 @@ import java.nio.FloatBuffer;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import wirkungsfunktional.de.emiProjectWS17.utils.LogContainer;
+import wirkungsfunktional.de.emiProjectWS17.utils.OrbitDataBundle;
+import wirkungsfunktional.de.emiProjectWS17.utils.ProgramConstructionContainer;
+import wirkungsfunktional.de.emiProjectWS17.utils.Simulator;
+import wirkungsfunktional.de.emiProjectWS17.utils.SpecialMatrixContainer;
+import wirkungsfunktional.de.emiProjectWS17.utils.TextResourceReader;
+
 import static android.content.Context.SENSOR_SERVICE;
 import static android.opengl.GLES20.GL_COLOR_BUFFER_BIT;
 import static android.opengl.GLES20.GL_FLOAT;
@@ -64,90 +71,22 @@ class OpenGLRenderer implements GLSurfaceView.Renderer, SensorEventListener {
     private float[] mRotationMatrix1 = new float[16];
     private float[] mRotationMatrix = new float[16];
     private float z = 0f, x=0f, y=0f;
-    float q01=0f, q02=0f, p01=0f, p02=0f;
-    private float pSlice=0f;
-    private int plotOption = 1;
-    private float sign = 1.0f;
 
-    float p2 = (float) 0.0633235322944;//-0.016;
-    float K1 = 2.25f;
-    float K2 = 3.0f;
-    float A = 1.0f;
-    float[] pointArray = new float[POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS + POSITION_COMPONENT_COUNT*6];
+    float[] pointArray;
 
     private SensorManager sensorManager;
     private static final float PRECI_OF_SEEK_BARS_DIV = (float) MainActivity.PRECI_OF_SEEK_BARS;
 
-    private void calcData() {
-        for (int i=1; i < NUMBER_OF_POINTS ; i++) {
-            pointArray[3*i] = (pointArray[3*i - 3] + pointArray[3*i - 1]) % 1.0f;
-            pointArray[3*i+1] = (pointArray[3*i - 2] + sign*p2) % 1.0f;
-            pointArray[3*i+2] = (float) (pointArray[3*i - 1] + K1 / (2f*Math.PI) * Math.sin(2f * Math.PI * pointArray[3*i])
-                        + A / (2f * Math.PI) * Math.sin(2f * Math.PI * (pointArray[3*i] + pointArray[3*i+1])));
-            p2 = (float) (p2 + K2 / (2f*Math.PI) * Math.sin(2f * Math.PI * pointArray[3*i+1])
-                        + A / (2f * Math.PI) * Math.sin(2f * Math.PI * (pointArray[3*i] + pointArray[3*i+1])));
 
 
-            pointArray[3*i+2] = ((pointArray[3*i+2] + 10.5f) % 1.0f ) - 0.5f;
-            p2 = ((p2 + 10.5f) % 1.0f ) - 0.5f;
-
-            pointArray[3*i - 3] = (pointArray[3*i - 3] - 0.5f) * 2.0f;
-            pointArray[3*i - 2] = (pointArray[3*i - 2] - 0.5f) * 2.0f;
-            pointArray[3*i - 1] = (pointArray[3*i - 1]       ) * 2.0f;
-        }
-        pointArray[3*NUMBER_OF_POINTS - 3] = (pointArray[3*NUMBER_OF_POINTS - 3] - 0.5f) * 2.0f;
-        pointArray[3*NUMBER_OF_POINTS - 2] = (pointArray[3*NUMBER_OF_POINTS - 2] - 0.5f) * 2.0f;
-        pointArray[3*NUMBER_OF_POINTS - 1] = (pointArray[3*NUMBER_OF_POINTS - 1]       ) * 2.0f;
-    }
-
-    private void makeSlice() {
-        float q1, q2, p1, p22;
-        int i = 0;
-        int overflowCheck = 0;
-        q1 = pointArray[0];
-        q2 = pointArray[1];
-        p1 = pointArray[2];
-        p22 = p2;
-        while (i < NUMBER_OF_POINTS) {
-            overflowCheck++;
-            q1 = (q1 + p1 + 10.0f) % 1.0f;
-            q2 = (q2 + sign*p22 + 10.0f) % 1.0f;
-            p1 = (float) (p1 + K1 / (2f*Math.PI) * Math.sin(2f * Math.PI * q1)
-                        + A / (2f * Math.PI) * Math.sin(2f * Math.PI * (q1 + q2)));
-            p22 = (float) (p22 + K2 / (2f*Math.PI) * Math.sin(2f * Math.PI * q2)
-                        + A / (2f * Math.PI) * Math.sin(2f * Math.PI * (q1 + q2)));
 
 
-            p1 = ((p1 + 10.5f) % 1.0f ) - 0.5f;
-            p22 = ((p22 + 10.5f) % 1.0f ) - 0.5f;
 
-            if (Math.abs(p22 - pSlice) < 0.001f) {
-                i++;
-                pointArray[3*i - 3] = (q1 - 0.5f) * 2.0f;
-                pointArray[3*i - 2] = (q2 - 0.5f) * 2.0f;
-                pointArray[3*i - 1] = (p1       ) * 2.0f;
-            }
-            if (overflowCheck > 100000L) {
-                while (i < NUMBER_OF_POINTS) {
-                    i++;
-                    pointArray[3*i - 3] = 0.0f;
-                    pointArray[3*i - 2] = 0.0f;
-                    pointArray[3*i - 1] = 0.0f;
-                }
-                break;
-            }
-        }
-    }
-
-
-    public OpenGLRenderer(Context context) {
+    public OpenGLRenderer(Context context, Simulator simulator) {
         this.context = context;
-
-        pointArray[0] = (float) 0.477973568282;//0.4600000;
-        pointArray[1] = (float) 0.549250220523;//0.55;
-        pointArray[2] = (float)-0.0256975036711; //0.143;
-
-        calcData();
+        simulator.setInitData(new OrbitDataBundle());
+        simulator.run();
+        pointArray = simulator.getDataArray();
 
         // Add points for the lines of the coordinate system
         pointArray[POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS    ] = -1f;
@@ -273,69 +212,13 @@ class OpenGLRenderer implements GLSurfaceView.Renderer, SensorEventListener {
         z = values[2];
     }
 
-    public void updateData(int q1, int q2, int y1, int y2, int iK, int opt) {
-        switch (opt) {
-            case 1:
-                A = 2f * ((float) iK / PRECI_OF_SEEK_BARS_DIV);
-                break;
-            case 2:
-                K1 = 4f * ((float) iK / PRECI_OF_SEEK_BARS_DIV);
-                break;
-            case 3:
-                K2 = 4f * ((float) iK / PRECI_OF_SEEK_BARS_DIV);
-                break;
-            case 0:
-                q01 = 1.0f * ((float) q1 / PRECI_OF_SEEK_BARS_DIV);
-                q02 = 1.0f * ((float) q2 / PRECI_OF_SEEK_BARS_DIV);
-                p01 = 1.0f * ((float) y1 / PRECI_OF_SEEK_BARS_DIV) - 0.5f;
-                p02 = 1.0f * ((float) y2 / PRECI_OF_SEEK_BARS_DIV) - 0.5f;
-                break;
-            case 4:
-                pSlice = 1.0f * ((float) iK / PRECI_OF_SEEK_BARS_DIV) - 0.5f;
-                break;
-        }
-        pointArray[0] = q01;
-        pointArray[2] = p01;
-        pointArray[1] = q02;
-        p2 = p02;
-
-        if (plotOption == 1) {
-            calcData();
-        }
-        if (plotOption == 2) {
-            makeSlice();
-        }
+    public void updateData(Simulator simulator) {
+        simulator.run();
+        pointArray = simulator.getDataArray();
         vertexData.put(pointArray);
         vertexData.position(0);
     }
 
-    public float getA() {
-        return A;
-    }
-    public float getK1() {
-        return K1;
-    }
-    public float getK2() {
-        return K2;
-    }
-    public float getQ01() {
-        return q01;
-    }
-    public float getQ02() {
-        return q02;
-    }
-    public float getP01() {
-        return p01;
-    }
-    public float getP02() {
-        return p02;
-    }
-    public void setPlotOption(int i) {
-        plotOption = i;
-    }
-    public void setMinusOption(float newSign) {
-        sign = newSign;
-    }
 
 }
 

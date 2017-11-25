@@ -1,4 +1,4 @@
-package wirkungsfunktional.de.emiProjectWS17;
+package wirkungsfunktional.de.emiProjectWS17.utils;
 
 /**
  * Created by mk on 29.10.17.
