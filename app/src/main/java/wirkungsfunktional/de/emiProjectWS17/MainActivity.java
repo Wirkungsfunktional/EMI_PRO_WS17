@@ -40,7 +40,7 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
         final ConfigurationInfo configurationInfo = activityManager.getDeviceConfigurationInfo();
         final boolean supportsEs2 = configurationInfo.reqGlEsVersion >= 0x20000;
 
-        simulator = new Simulator(1000);
+        simulator = new Simulator(GeneralConstants.ITERATIONS);
 
         if (supportsEs2) {
             glSurfaceView.setEGLContextClientVersion(2);
@@ -122,13 +122,13 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
                 data.setQ2(value);
                 break;
             case R.id.seekBarK:
-                data.setA(3.0f * value);
+                data.setA(2.0f * value);
                 break;
             case R.id.seekBarK1:
-                data.setK1(3.0f * value);
+                data.setK1(4.0f * value);
                 break;
             case R.id.seekBarK2:
-                data.setK2(3.0f * value);
+                data.setK2(4.0f * value);
                 break;
             case R.id.seekBarSlice:
                 data.setpSlice(value + GeneralConstants.P_INTERVALL_START);
@@ -137,7 +137,16 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
         openGLRenderer.updateData(simulator);
 
 
-        textView1.setText("q1:");
+        float[] orbitInitPoints = data.getOrbitPoints();
+        float[] orbitInitSetting = data.getSimulationSettings();
+        textView1.setText(  "q1: " + orbitInitPoints[0] + " " +
+                            "q2: " + orbitInitPoints[1] + " " +
+                            "p1: " + orbitInitPoints[2] + " " +
+                            "p2: " + orbitInitPoints[3] + " " +
+                            "A: " + orbitInitSetting[0] + " " +
+                            "K1: " + orbitInitSetting[1] + " " +
+                            "K2: " + orbitInitSetting[2] + " "
+        );
     }
 
     @Override

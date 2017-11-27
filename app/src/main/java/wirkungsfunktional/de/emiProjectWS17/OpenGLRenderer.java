@@ -53,6 +53,7 @@ class OpenGLRenderer implements GLSurfaceView.Renderer, SensorEventListener {
     private static final String A_POSITION = "a_Position";
     private static final String U_MATRIX = "u_Matrix";
     private static final String U_COLOR = "u_Color";
+    private static final String A_COLOR = "a_Color";
 
     private final Context context;
     private static final int BYTES_PER_FLOAT = 4;
@@ -65,6 +66,7 @@ class OpenGLRenderer implements GLSurfaceView.Renderer, SensorEventListener {
     private int program;
     private int aPositionLocation;
     private int uMatrixLocation;
+    private int aColorLocation;
     private float[] projectionMatrix = new float[16];
     private float[] modelMatrix = new float[16];
     private int uColorLocation;
@@ -142,13 +144,17 @@ class OpenGLRenderer implements GLSurfaceView.Renderer, SensorEventListener {
         glUseProgram(program);
 
         uColorLocation = glGetUniformLocation(program, U_COLOR);
+        //aColorLocation = glGetAttribLocation(program, A_COLOR);
 
-        aPositionLocation = glGetAttribLocation(program, A_POSITION);
+        //aPositionLocation = glGetAttribLocation(program, A_POSITION);
         uMatrixLocation = glGetUniformLocation(program, U_MATRIX);
 
         vertexData.position(0);
         glVertexAttribPointer(aPositionLocation, GeneralConstants.POSITION_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, vertexData);
         glEnableVertexAttribArray(aPositionLocation);
+        //vertexData.position(GeneralConstants.POSITION_COMPONENT_COUNT);
+        //glVertexAttribPointer(aColorLocation, COLOR_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, vertexData);
+        //glEnableVertexAttribArray(aColorLocation);
 
     }
     @Override

@@ -18,4 +18,5 @@ public class GeneralConstants {
     public static final int SLICE_PLOT_FLAG = 2;
     public static final int POSITIV_SIGN = 1;
     public static final int NEGATIV_SIGN = -1;
+    public static final int ITERATIONS = 1000;
 }

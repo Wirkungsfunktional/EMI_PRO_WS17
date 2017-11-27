@@ -1,6 +1,8 @@
 package wirkungsfunktional.de.emiProjectWS17.utils;
 
+
 import java.io.Serializable;
+
 
 /**
  * Created by mk on 25.11.17.
@@ -41,39 +43,35 @@ public class OrbitDataBundle implements Serializable {
     }
 
 
+    public void writeDataToFile(){}
+    public void readDataFromFile(){}
+
 
 
     public float[] getOrbitPoints() {
         return orbitPoints;
     }
-
     public void setOrbitPoints(float[] orbitPoints) {
         this.orbitPoints = orbitPoints;
     }
-
     public float[] getSimulationSettings() {
         return simulationSettings;
     }
-
     public void setSimulationSettings(float[] simulationSettings) {
         this.simulationSettings = simulationSettings;
     }
-
     public int[] getSimulationOptions() {
         return simulationOptions;
     }
-
     public void setSimulationOptions(int[] simulationOptions) {
         this.simulationOptions = simulationOptions;
     }
     public float getpSlice() {
         return pSlice;
     }
-
     public void setpSlice(float pSlice) {
         this.pSlice = pSlice;
     }
-
     public void setQ1(float v) {
         this.orbitPoints[0] = v;
     }
@@ -107,6 +105,8 @@ public class OrbitDataBundle implements Serializable {
     public int getMinus() {
         return simulationOptions[1];
     }
+
+
 
 
 
