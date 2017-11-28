@@ -18,6 +18,7 @@ public class Simulator {
     float[] simSettings;
     int[] simOptions;
     float TWOPI = 2.0f* (float) Math.PI;
+    private boolean parallelPerspectiveActive = true;
 
 
     public Simulator(int Iterations) {
@@ -40,7 +41,8 @@ public class Simulator {
         float K2 = simSettings[2] / TWOPI;
         float sign = (float) simOptions[1];
         int n = 3;
-
+        float perspectiveScale = 1.0f;
+        float dist = 0.2f;
 
         for (int i=1; i < NUMBER_OF_POINTS ; i++) {
             dataArray[n*i] = (dataArray[n*i - 3] + dataArray[n*i - 1]
@@ -59,12 +61,15 @@ public class Simulator {
                         + GeneralConstants.P_INTERVALL_END) % GeneralConstants.TORUS_MODUL_SIZE )
                         + GeneralConstants.P_INTERVALL_START;
 
-
-            dataArray[n*i - 3] = (dataArray[3*i - 3] + GeneralConstants.P_INTERVALL_START)
+            p2 = (((p2 + 0.5f) % 1.0f) - 0.5f);
+            if (!parallelPerspectiveActive) {
+                perspectiveScale = (dist / (p2 + dist));
+            }
+            dataArray[n*i - 3] = (dataArray[3*i - 3] + GeneralConstants.P_INTERVALL_START) * perspectiveScale
                                     * GeneralConstants.SCALING_FACTOR;
-            dataArray[n*i - 2] = (dataArray[3*i - 2] + GeneralConstants.P_INTERVALL_START)
+            dataArray[n*i - 2] = (dataArray[3*i - 2] + GeneralConstants.P_INTERVALL_START) * perspectiveScale
                                     * GeneralConstants.SCALING_FACTOR;
-            dataArray[n*i - 1] = (dataArray[3*i - 1])
+            dataArray[n*i - 1] = (dataArray[3*i - 1]) *  perspectiveScale
                                     * GeneralConstants.SCALING_FACTOR;
         }
         dataArray[3*NUMBER_OF_POINTS - 3] = (dataArray[3*NUMBER_OF_POINTS - 3]
@@ -191,6 +196,14 @@ public class Simulator {
 
     public static void setNumberOfPoints(int numberOfPoints) {
         NUMBER_OF_POINTS = numberOfPoints;
+    }
+
+    public void setPerspective() {
+        if (parallelPerspectiveActive) {
+            parallelPerspectiveActive = false;
+        } else {
+            parallelPerspectiveActive = true;
+        }
     }
 
 

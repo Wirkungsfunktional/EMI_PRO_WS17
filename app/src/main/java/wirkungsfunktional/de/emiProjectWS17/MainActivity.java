@@ -3,6 +3,7 @@ package wirkungsfunktional.de.emiProjectWS17;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ConfigurationInfo;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
@@ -28,6 +29,8 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
             "seekBarK1", "seekBarK2", "seekBarSlice"};
     private Button sliceOptionButton;
     private Button minusOptionButton;
+    private Button savedFileButton;
+    private Button perspectiveButton;
     private Simulator simulator;
 
 
@@ -84,8 +87,25 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
             }
         });
 
+        savedFileButton = (Button) findViewById(R.id.savedFileButton);
+        savedFileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startFileSelection();
+            }
+        });
 
+        perspectiveButton = (Button) findViewById(R.id.perspectiveButton);
+        perspectiveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                simulator.setPerspective();
+            }
+        });
+    }
 
+    private void startFileSelection() {
+        startActivity(new Intent(this, FileSelection.class));
     }
 
     @Override

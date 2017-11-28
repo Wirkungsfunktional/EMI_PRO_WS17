@@ -3,4 +3,6 @@
     <string name="sliceOptionButtonLabel">Slice Option</string>
     <string name="minusOptionButtonLabel">Minus Option</string>
     <string name="switchPlotOpionLabel">Switch the Plot Option</string>
+    <string name="savedFileButtonLabel">Saved File</string>
+    <string name="perspectiveButtonLabel">Change Perspective</string>
 </resources>
