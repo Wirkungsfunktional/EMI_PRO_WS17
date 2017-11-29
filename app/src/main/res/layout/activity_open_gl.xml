@@ -44,6 +44,13 @@
                 android:text="@string/savedFileButtonLabel" />
 
             <Button
+                android:id="@+id/loadFileButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/loadFileButton" />
+
+            <Button
                 android:id="@+id/perspectiveButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

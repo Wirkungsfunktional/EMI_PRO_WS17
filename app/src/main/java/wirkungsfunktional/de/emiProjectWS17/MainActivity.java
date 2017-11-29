@@ -31,7 +31,9 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
     private Button minusOptionButton;
     private Button savedFileButton;
     private Button perspectiveButton;
+    private Button loadButton;
     private Simulator simulator;
+    private OrbitDataBundle currentData = new OrbitDataBundle();
 
 
     @Override
@@ -91,6 +93,17 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
         savedFileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), SaveFileActivity.class);
+                intent.putExtra("data", currentData);
+                startActivity(intent);
+                //startSaveFileActivity();
+            }
+        });
+
+        loadButton = (Button) findViewById(R.id.loadFileButton);
+        loadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 startFileSelection();
             }
         });
@@ -102,6 +115,10 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
                 simulator.setPerspective();
             }
         });
+    }
+
+    private void startSaveFileActivity() {
+        startActivity(new Intent(this, SaveFileActivity.class));
     }
 
     private void startFileSelection() {
@@ -154,6 +171,7 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
                 data.setpSlice(value + GeneralConstants.P_INTERVALL_START);
         }
         simulator.setInitData(data);
+        currentData = data;
         openGLRenderer.updateData(simulator);
 
 

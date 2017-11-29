@@ -17,6 +17,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".FileSelection" />
+        <activity android:name=".SaveFileActivity"/>
     </application>
 
 </manifest>

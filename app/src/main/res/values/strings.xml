@@ -5,4 +5,8 @@
     <string name="switchPlotOpionLabel">Switch the Plot Option</string>
     <string name="savedFileButtonLabel">Saved File</string>
     <string name="perspectiveButtonLabel">Change Perspective</string>
+    <string name="textViewNameLabel">Name</string>
+    <string name="textViewCommentLabel">Insert Comment</string>
+    <string name="buttonSaveNewEntryLabel">Save</string>
+    <string name="loadFileButton">Load</string>
 </resources>
