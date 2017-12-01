@@ -9,4 +9,5 @@
     <string name="textViewCommentLabel">Insert Comment</string>
     <string name="buttonSaveNewEntryLabel">Save</string>
     <string name="loadFileButton">Load</string>
+    <string name="buttonDeleteFilesLabel">Delete All Files</string>
 </resources>

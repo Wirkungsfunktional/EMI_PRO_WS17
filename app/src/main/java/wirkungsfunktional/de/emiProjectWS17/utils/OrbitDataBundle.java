@@ -85,6 +85,17 @@ public class OrbitDataBundle implements Serializable {
     public void setQ1(float v) {
         this.orbitPoints[0] = v;
     }
+    public float getQ1() {return this.orbitPoints[0];}
+    public float getQ2() {return this.orbitPoints[1];}
+    public float getP1() {return this.orbitPoints[2];}
+    public float getP2() {return this.orbitPoints[3];}
+    public float getA() {return this.simulationSettings[0];}
+    public float getK1() {return this.simulationSettings[1];}
+    public float getK2() {return this.simulationSettings[2];}
+    public float getSliceP() {return this.pSlice;}
+    public int getSliceSetting() {return simulationOptions[0];}
+    public int getMinusSetting() {return simulationOptions[1];}
+
     public void setQ2(float v) {
         this.orbitPoints[1] = v;
     }

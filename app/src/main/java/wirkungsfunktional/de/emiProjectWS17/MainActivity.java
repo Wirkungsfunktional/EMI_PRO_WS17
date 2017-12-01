@@ -177,7 +177,7 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
 
         float[] orbitInitPoints = data.getOrbitPoints();
         float[] orbitInitSetting = data.getSimulationSettings();
-        textView1.setText(  "q1: " + orbitInitPoints[0] + " " +
+        textView1.setText(  "q1: " + orbitInitPoints[0] + " " +             //TODO: Make String write Function
                             "q2: " + orbitInitPoints[1] + " " +
                             "p1: " + orbitInitPoints[2] + " " +
                             "p2: " + orbitInitPoints[3] + " " +

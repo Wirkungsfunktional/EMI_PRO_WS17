@@ -51,18 +51,19 @@ public class SaveFileActivity extends Activity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                OrbitDataBundle data = new OrbitDataBundle();
-                data.setName(nameEdit.getText().toString());
-                data.setComment(commentEdit.getText().toString());
+                //OrbitDataBundle data = new OrbitDataBundle();
+                dataBundle.setName(nameEdit.getText().toString());
+                dataBundle.setComment(commentEdit.getText().toString());
 
 
-                if(db.insertEntry(data)){
+                if(db.insertEntry(dataBundle)){
                           Toast.makeText(getApplicationContext(), "done",
                                    Toast.LENGTH_SHORT).show();
                     } else {
                        Toast.makeText(getApplicationContext(), "not done",
                                Toast.LENGTH_SHORT).show();
                     }
+                finish();
 
             }
         });
