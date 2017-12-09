@@ -1,6 +1,7 @@
 package wirkungsfunktional.de.emiProjectWS17;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,10 +21,11 @@ import wirkungsfunktional.de.emiProjectWS17.utils.OrbitDataBundle;
 
 public class FileSelection extends Activity {
     private ListView listView;
-    private Button deleteButton;
+    private Button deleteButton, loadButton;
     private TextView textView;
     DataBaseContainer db;
     String selectedFile;
+    private OrbitDataBundle selectedData = new OrbitDataBundle();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,7 @@ public class FileSelection extends Activity {
 
         listView = (ListView) findViewById(R.id.fileSelection);
         deleteButton = (Button) findViewById(R.id.buttonDeleteFiles);
+        loadButton = (Button) findViewById(R.id.buttonLoadData);
         textView = (TextView) findViewById(R.id.textViewShowDetail);
 
 
@@ -45,14 +48,24 @@ public class FileSelection extends Activity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 selectedFile = listView.getItemAtPosition(i).toString();
-                OrbitDataBundle data = db.getOrbitData(selectedFile);
-                textView.setText(   "Q1: " + Float.toString(data.getQ1()) +
-                                    " Q2: " + Float.toString(data.getQ2()) +
-                                    " P1: " + Float.toString(data.getP1()) +
-                                    " P2: " + Float.toString(data.getP2()) +
-                                    " A: " + Float.toString(data.getA()) +
-                                    " K1: " + Float.toString(data.getK1()) +
-                                    " K2: " + Float.toString(data.getK2()));
+                selectedData = db.getOrbitData(selectedFile);
+                textView.setText(   "Q1: " + Float.toString(selectedData.getQ1()) +
+                                    " Q2: " + Float.toString(selectedData.getQ2()) +
+                                    " P1: " + Float.toString(selectedData.getP1()) +
+                                    " P2: " + Float.toString(selectedData.getP2()) +
+                                    " A: " + Float.toString(selectedData.getA()) +
+                                    " K1: " + Float.toString(selectedData.getK1()) +
+                                    " K2: " + Float.toString(selectedData.getK2()));
+            }
+        });
+
+        loadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent data = new Intent();
+                data.putExtra("loadData", selectedData);
+                setResult(Activity.RESULT_OK, data);
+                finish();
             }
         });
 

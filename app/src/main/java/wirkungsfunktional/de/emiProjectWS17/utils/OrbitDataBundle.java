@@ -15,6 +15,7 @@ public class OrbitDataBundle implements Serializable {
     private float[] simulationSettings = new float[3];         // A, K1, K2
     private int[] simulationOptions = new int[2];            // slice, minus
     float pSlice;
+    private float[] space = new float[3];
 
     private String name = "noName";
     private String comment = "";
@@ -36,7 +37,7 @@ public class OrbitDataBundle implements Serializable {
         id = 0;
     }
     OrbitDataBundle(float q1, float q2, float p1, float p2, float A, float K1, float K2, int slice,
-                    int minus, float pSliceVal) {
+                    int minus, float pSliceVal, float x) {
         orbitPoints[0] = q1;
         orbitPoints[1] = q2;
         orbitPoints[2] = p1;
@@ -46,6 +47,7 @@ public class OrbitDataBundle implements Serializable {
         simulationSettings[2] = K2;
         simulationOptions[0] = slice;
         simulationOptions[1] = minus;
+        space[0] = x;
         pSlice = pSliceVal;
         name = "noName";
         comment = "";
@@ -150,8 +152,12 @@ public class OrbitDataBundle implements Serializable {
         this.id = id;
     }
 
-
-
+    public void setX(float x) {this.space[0] = x;}
+    public float getX() {return this.space[0];}
+    public void setY(float x) {this.space[1] = x;}
+    public float getY() {return this.space[1];}
+    public void setZ(float x) {this.space[2] = x;}
+    public float getZ() {return this.space[2];}
 
 
 

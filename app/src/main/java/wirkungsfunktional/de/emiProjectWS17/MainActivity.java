@@ -2,6 +2,7 @@ package wirkungsfunktional.de.emiProjectWS17;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ConfigurationInfo;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import wirkungsfunktional.de.emiProjectWS17.utils.GeneralConstants;
 import wirkungsfunktional.de.emiProjectWS17.utils.OrbitDataBundle;
+import wirkungsfunktional.de.emiProjectWS17.utils.ShowCommentDialog;
 import wirkungsfunktional.de.emiProjectWS17.utils.Simulator;
 
 public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeListener {
@@ -23,15 +25,16 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
     private boolean rendererSet = false;
     private TextView textView1;
     private OpenGLRenderer openGLRenderer;
-    private static final int NUMBER_OF_SEEK_BARS = 8;
+    private static final int NUMBER_OF_SEEK_BARS = 11;
     private SeekBar[] seekBarsList = new SeekBar[NUMBER_OF_SEEK_BARS];
     private String[] seekBarID = {"seekBarQ1", "seekBarP1","seekBarQ2", "seekBarP2", "seekBarK",
-            "seekBarK1", "seekBarK2", "seekBarSlice"};
+            "seekBarK1", "seekBarK2", "seekBarSlice", "seekBarSpaceX","seekBarSpaceY","seekBarSpaceZ"};
     private Button sliceOptionButton;
     private Button minusOptionButton;
     private Button savedFileButton;
     private Button perspectiveButton;
     private Button loadButton;
+    private Button showCommentButton;
     private Simulator simulator;
     private OrbitDataBundle currentData = new OrbitDataBundle();
 
@@ -115,14 +118,56 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
                 simulator.setPerspective();
             }
         });
+
+        showCommentButton = (Button) findViewById(R.id.buttonShowComment);
+        showCommentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startCommentDialog();
+            }
+        });
     }
+
+    private void startCommentDialog() {
+        FragmentManager manager = getFragmentManager();
+        ShowCommentDialog dialog = new ShowCommentDialog();
+        dialog.show(manager, "Test");
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent OrbitData) {
+        if (requestCode == GeneralConstants.REQUEST_CODE_LOAD_ACTIVITY) {
+            if (resultCode == RESULT_OK) {
+                currentData = (OrbitDataBundle) OrbitData.getExtras().get("loadData");
+                textView1.setText("Joo klapt");
+                simulator.setInitData(currentData);
+                openGLRenderer.updateData(simulator);
+                setSliderPosition(currentData);
+            }
+        }
+    }
+
 
     private void startSaveFileActivity() {
         startActivity(new Intent(this, SaveFileActivity.class));
     }
 
     private void startFileSelection() {
-        startActivity(new Intent(this, FileSelection.class));
+
+        startActivityForResult(new Intent(this, FileSelection.class), GeneralConstants.REQUEST_CODE_LOAD_ACTIVITY);
+    }
+
+    private void setSliderPosition(OrbitDataBundle dataBundle) {
+        seekBarsList[0].setProgress( (int) (dataBundle.getQ1() * GeneralConstants.PRECI_OF_SEEK_BARS));
+        seekBarsList[1].setProgress( (int) ((dataBundle.getP1() - GeneralConstants.P_INTERVALL_START)
+                * GeneralConstants.PRECI_OF_SEEK_BARS));
+        seekBarsList[2].setProgress( (int) (dataBundle.getQ2() * GeneralConstants.PRECI_OF_SEEK_BARS));
+        seekBarsList[3].setProgress( (int) ((dataBundle.getP2() - GeneralConstants.P_INTERVALL_START)
+                * GeneralConstants.PRECI_OF_SEEK_BARS));
+        seekBarsList[4].setProgress( (int) (dataBundle.getA() * GeneralConstants.PRECI_OF_SEEK_BARS / 2.0f));
+        seekBarsList[5].setProgress( (int) (dataBundle.getK1() * GeneralConstants.PRECI_OF_SEEK_BARS / 4.0f));
+        seekBarsList[6].setProgress( (int) (dataBundle.getK2() * GeneralConstants.PRECI_OF_SEEK_BARS / 4.0f));
+        seekBarsList[7].setProgress( (int) ((dataBundle.getpSlice() - GeneralConstants.P_INTERVALL_START)
+                * GeneralConstants.PRECI_OF_SEEK_BARS));
     }
 
     @Override
@@ -169,6 +214,16 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
                 break;
             case R.id.seekBarSlice:
                 data.setpSlice(value + GeneralConstants.P_INTERVALL_START);
+                break;
+            case R.id.seekBarSpaceX:
+                data.setX(value + GeneralConstants.P_INTERVALL_START);
+                break;
+            case R.id.seekBarSpaceY:
+                data.setY(value + GeneralConstants.P_INTERVALL_START);
+                break;
+            case R.id.seekBarSpaceZ:
+                data.setZ(value + GeneralConstants.P_INTERVALL_START);
+                break;
         }
         simulator.setInitData(data);
         currentData = data;
@@ -177,13 +232,15 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
 
         float[] orbitInitPoints = data.getOrbitPoints();
         float[] orbitInitSetting = data.getSimulationSettings();
+        int stabilityState = simulator.getStabilityState();
         textView1.setText(  "q1: " + orbitInitPoints[0] + " " +             //TODO: Make String write Function
                             "q2: " + orbitInitPoints[1] + " " +
                             "p1: " + orbitInitPoints[2] + " " +
                             "p2: " + orbitInitPoints[3] + " " +
                             "A: " + orbitInitSetting[0] + " " +
                             "K1: " + orbitInitSetting[1] + " " +
-                            "K2: " + orbitInitSetting[2] + " "
+                            "K2: " + orbitInitSetting[2] + " " +
+                            "Stability: " + GeneralConstants.decodeStabilityState(stabilityState)
         );
     }
 

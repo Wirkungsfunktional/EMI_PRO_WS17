@@ -57,6 +57,13 @@
                 android:layout_weight="1"
                 android:text="@string/perspectiveButtonLabel" />
 
+            <Button
+                android:id="@+id/buttonShowComment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/buttonShowCommentLabel" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -112,6 +119,24 @@
                 android:id="@+id/seekBarSlice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+
+            <SeekBar
+                android:id="@+id/seekBarSpaceX"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom" />
+
+            <SeekBar
+                android:id="@+id/seekBarSpaceY"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom" />
+
+            <SeekBar
+                android:id="@+id/seekBarSpaceZ"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom" />
 
         </LinearLayout>
     </LinearLayout>

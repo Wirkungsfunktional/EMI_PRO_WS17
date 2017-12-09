@@ -10,4 +10,6 @@
     <string name="buttonSaveNewEntryLabel">Save</string>
     <string name="loadFileButton">Load</string>
     <string name="buttonDeleteFilesLabel">Delete All Files</string>
+    <string name="buttonLoadDataLabel">Load File</string>
+    <string name="buttonShowCommentLabel">Comment</string>
 </resources>

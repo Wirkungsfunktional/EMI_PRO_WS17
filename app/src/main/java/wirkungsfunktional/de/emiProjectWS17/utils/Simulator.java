@@ -19,6 +19,11 @@ public class Simulator {
     int[] simOptions;
     float TWOPI = 2.0f* (float) Math.PI;
     private boolean parallelPerspectiveActive = true;
+    private float[] space = new float[3];
+
+
+
+    private int stabilityState = 0;
 
 
     public Simulator(int Iterations) {
@@ -42,7 +47,13 @@ public class Simulator {
         float sign = (float) simOptions[1];
         int n = 3;
         float perspectiveScale = 1.0f;
-        float dist = 0.2f;
+        float dist = 1.0f + initData.getpSlice();
+        float a = 0.2f;
+        if (parallelPerspectiveActive) {
+                space[0] = 0.0f;
+                space[1] = 0.0f;
+                space[2] = 0.0f;
+            }
 
         for (int i=1; i < NUMBER_OF_POINTS ; i++) {
             dataArray[n*i] = (dataArray[n*i - 3] + dataArray[n*i - 1]
@@ -63,14 +74,14 @@ public class Simulator {
 
             p2 = (((p2 + 0.5f) % 1.0f) - 0.5f);
             if (!parallelPerspectiveActive) {
-                perspectiveScale = (dist / (p2 + dist));
+                perspectiveScale = (a / (p2 + dist + a));
             }
-            dataArray[n*i - 3] = (dataArray[3*i - 3] + GeneralConstants.P_INTERVALL_START) * perspectiveScale
-                                    * GeneralConstants.SCALING_FACTOR;
-            dataArray[n*i - 2] = (dataArray[3*i - 2] + GeneralConstants.P_INTERVALL_START) * perspectiveScale
-                                    * GeneralConstants.SCALING_FACTOR;
-            dataArray[n*i - 1] = (dataArray[3*i - 1]) *  perspectiveScale
-                                    * GeneralConstants.SCALING_FACTOR;
+            dataArray[n*i - 3] = ((dataArray[3*i - 3] + GeneralConstants.P_INTERVALL_START - space[0]) * perspectiveScale
+                                    )* GeneralConstants.SCALING_FACTOR;
+            dataArray[n*i - 2] = ((dataArray[3*i - 2] + GeneralConstants.P_INTERVALL_START- space[1]) * perspectiveScale
+                                    )* GeneralConstants.SCALING_FACTOR;
+            dataArray[n*i - 1] = ((dataArray[3*i - 1]- space[2]) *  perspectiveScale
+                                    )* GeneralConstants.SCALING_FACTOR;
         }
         dataArray[3*NUMBER_OF_POINTS - 3] = (dataArray[3*NUMBER_OF_POINTS - 3]
                         + GeneralConstants.P_INTERVALL_START) * GeneralConstants.SCALING_FACTOR;
@@ -137,6 +148,36 @@ public class Simulator {
         initPoints = initData.getOrbitPoints();
         simSettings = initData.getSimulationSettings();
         simOptions = initData.getSimulationOptions();
+        space[0] = initData.getX();
+        space[1] = initData.getY();
+        space[2] = initData.getZ();
+    }
+
+    private void stabilityAnalysis() {
+        float[][] L = SpecialMatrixContainer.linearMap(0.5f,0.5f, 0.0f, 0.0f,
+                simSettings[0], simSettings[1], simSettings[2], (float) simOptions[1]);
+        float a = SpecialMatrixContainer.trace(L, 4);
+        float b = (a*a -  SpecialMatrixContainer.trace(SpecialMatrixContainer.dot(L, L, 4), 4)) / 2.0f;
+
+        float boundCU = a*a / 4.0f + 2;
+        float boundp = 2.0f * a - 2.0f;
+        float boundm = -2.0f * a - 2.0f;
+        if (b >= boundCU) {
+            stabilityState = GeneralConstants.COMPLEX_UNSTABLE;
+        } else {
+            if ((b >= boundp) && (b >= boundm)) {
+                stabilityState = GeneralConstants.ELLIPTIC_ELLIPTIC;
+            }
+            if ((b < boundp) && (b >= boundm)) {
+                stabilityState = GeneralConstants.ELLIPTIC_HYPERBOLIC;
+            }
+            if ((b >= boundp) && (b < boundm)) {
+                stabilityState = GeneralConstants.HYPERBOLIC_ELLIPTIC;
+            }
+            if ((b < boundp) && (b < boundm)) {
+                stabilityState = GeneralConstants.HYPERBOLIC_HYPERBOLIC;
+            }
+        }
     }
 
     public void run() {
@@ -149,8 +190,7 @@ public class Simulator {
                 makeSlice();
                 break;
         }
-
-
+        stabilityAnalysis();
     }
 
 
@@ -206,5 +246,12 @@ public class Simulator {
         }
     }
 
+    public int getStabilityState() {
+        return stabilityState;
+    }
 
+
+    public void setStabilityState(int stabilityState) {
+        this.stabilityState = stabilityState;
+    }
 }
