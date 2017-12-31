@@ -129,16 +129,19 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
     }
 
     private void startCommentDialog() {
-        FragmentManager manager = getFragmentManager();
-        ShowCommentDialog dialog = new ShowCommentDialog();
-        dialog.show(manager, "Test");
+        startActivityForResult(new Intent(this, CommentView.class), GeneralConstants.REQUEST_CODE_COMMMENT_ACTIVITY);
+
+
+        //FragmentManager manager = getFragmentManager();
+        //ShowCommentDialog dialog = new ShowCommentDialog();
+        //dialog.show(manager, "Test");
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent OrbitData) {
         if (requestCode == GeneralConstants.REQUEST_CODE_LOAD_ACTIVITY) {
             if (resultCode == RESULT_OK) {
                 currentData = (OrbitDataBundle) OrbitData.getExtras().get("loadData");
-                textView1.setText("Joo klapt");
                 simulator.setInitData(currentData);
                 openGLRenderer.updateData(simulator);
                 setSliderPosition(currentData);

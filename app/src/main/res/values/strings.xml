@@ -12,4 +12,9 @@
     <string name="buttonDeleteFilesLabel">Delete All Files</string>
     <string name="buttonLoadDataLabel">Load File</string>
     <string name="buttonShowCommentLabel">Comment</string>
+    <string name="Q1">Q1</string>
+    <string name="P1">P1</string>
+    <string name="Q2">Q2</string>
+    <string name="P2">P2</string>
+    <string name="changeCommentButtonLabel">Save Changes</string>
 </resources>
