@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.ConfigurationInfo;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.view.OrientationEventListener;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -129,18 +130,23 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
     }
 
     private void startCommentDialog() {
-        startActivityForResult(new Intent(this, CommentView.class), GeneralConstants.REQUEST_CODE_COMMMENT_ACTIVITY);
-
-
-        //FragmentManager manager = getFragmentManager();
-        //ShowCommentDialog dialog = new ShowCommentDialog();
-        //dialog.show(manager, "Test");
+        Intent intent = new Intent(getApplicationContext(), CommentView.class);
+        intent.putExtra("data", currentData);
+        startActivityForResult(intent, GeneralConstants.REQUEST_CODE_COMMMENT_ACTIVITY);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent OrbitData) {
         if (requestCode == GeneralConstants.REQUEST_CODE_LOAD_ACTIVITY) {
             if (resultCode == RESULT_OK) {
+                currentData = (OrbitDataBundle) OrbitData.getExtras().get("loadData");
+                simulator.setInitData(currentData);
+                openGLRenderer.updateData(simulator);
+                setSliderPosition(currentData);
+            }
+        }
+        if (requestCode == GeneralConstants.REQUEST_CODE_COMMMENT_ACTIVITY) {
+            if (requestCode == RESULT_OK) {
                 currentData = (OrbitDataBundle) OrbitData.getExtras().get("loadData");
                 simulator.setInitData(currentData);
                 openGLRenderer.updateData(simulator);

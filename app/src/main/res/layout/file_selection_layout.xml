@@ -41,8 +41,9 @@
             android:layout_height="match_parent"
             android:background="@android:color/background_light"
             tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="122dp">
-
+            tools:layout_editor_absoluteY="122dp"
+            android:choiceMode="singleChoice"
+            android:listSelector="@android:color/darker_gray">
         </ListView>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

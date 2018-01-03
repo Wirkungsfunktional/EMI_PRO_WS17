@@ -36,8 +36,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Name" />
+            android:text="Name"
+            android:inputType="textMultiLine"/>
 
         <Button
             android:id="@+id/buttonSaveNewEntry"
@@ -47,10 +47,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/textViewData"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
+
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

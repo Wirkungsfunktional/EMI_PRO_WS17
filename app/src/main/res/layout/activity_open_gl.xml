@@ -12,136 +12,127 @@
 
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="right"
         android:orientation="horizontal">
 
-        <SeekBar
-            android:id="@+id/seekBarSlice"
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:rotation="90" />
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/sliceOptionButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/sliceOptionButtonLabel"
-                android:visibility="visible" />
-
-            <Button
-                android:id="@+id/minusOptionButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/minusOptionButtonLabel"
-                android:visibility="invisible" />
-
-            <Button
-                android:id="@+id/savedFileButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/savedFileButtonLabel"
-                android:visibility="invisible" />
-
-            <Button
-                android:id="@+id/loadFileButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/loadFileButton"
-                android:visibility="invisible" />
-
-            <Button
-                android:id="@+id/perspectiveButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/perspectiveButtonLabel"
-                android:visibility="invisible" />
-
-            <Button
-                android:id="@+id/buttonShowComment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/buttonShowCommentLabel"
-                android:visibility="visible" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/seekBarLayer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
             android:orientation="vertical">
 
-
-            <TextView
-                android:id="@+id/textShow"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView"
-                android:textColor="@android:color/background_light" />
+                android:layout_weight="1"
+                android:orientation="horizontal">
 
-            <SeekBar
-                android:id="@+id/seekBarK"
+                <Button
+                    android:id="@+id/sliceOptionButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/sliceOptionButtonLabel"
+                    android:visibility="visible" />
+
+                <Button
+                    android:id="@+id/savedFileButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/savedFileButtonLabel"
+                    android:visibility="visible" />
+
+                <Button
+                    android:id="@+id/loadFileButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/loadFileButton"
+                    android:visibility="visible" />
+
+                <Button
+                    android:id="@+id/buttonShowComment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/buttonShowCommentLabel"
+                    android:visibility="visible" />
+
+                <Button
+                    android:id="@+id/minusOptionButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/minusOptionButtonLabel"
+                    android:visibility="invisible" />
+
+                <Button
+                    android:id="@+id/perspectiveButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/perspectiveButtonLabel"
+                    android:visibility="invisible" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/seekBarLayer"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <SeekBar
-                android:id="@+id/seekBarK1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <SeekBar
-                android:id="@+id/seekBarK2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom"
+                android:layout_weight="1"
+                android:gravity="bottom"
+                android:orientation="vertical">
 
 
+                <TextView
+                    android:id="@+id/textShow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"
+                    android:textColor="@android:color/background_light" />
 
-            <SeekBar
-                android:id="@+id/seekBarSpaceX"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom" />
+                <SeekBar
+                    android:id="@+id/seekBarK"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
-            <SeekBar
-                android:id="@+id/seekBarSpaceY"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom" />
+                <SeekBar
+                    android:id="@+id/seekBarK1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
-            <SeekBar
-                android:id="@+id/seekBarSpaceZ"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom" />
-        </LinearLayout>
+                <SeekBar
+                    android:id="@+id/seekBarK2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
-            <GridLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom">
+
+                <SeekBar
+                    android:id="@+id/seekBarSpaceX"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:visibility="invisible" />
+
+                <SeekBar
+                    android:id="@+id/seekBarSpaceY"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:visibility="invisible" />
+
+                <SeekBar
+                    android:id="@+id/seekBarSpaceZ"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:visibility="invisible" />
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -181,7 +172,8 @@
                     <SeekBar
                         android:id="@+id/seekBarP1"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:visibility="visible" />
 
 
                 </LinearLayout>
@@ -203,7 +195,8 @@
                     <SeekBar
                         android:id="@+id/seekBarQ2"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:visibility="visible" />
 
                 </LinearLayout>
 
@@ -211,7 +204,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_column="0"
+                    android:layout_gravity="bottom"
                     android:layout_row="3"
+                    android:gravity="bottom"
                     android:orientation="horizontal">
 
                     <TextView
@@ -227,16 +222,15 @@
                         android:layout_height="wrap_content" />
                 </LinearLayout>
 
+            </LinearLayout>
 
+        </LinearLayout>
 
-
-
-
-
-
-
-            </GridLayout>
-
+        <SeekBar
+            android:id="@+id/seekBarSlice"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:rotation="270" />
 
     </LinearLayout>
 

@@ -20,7 +20,6 @@ public class SaveFileActivity extends Activity {
     EditText    nameEdit,
                 commentEdit;
     DataBaseContainer db;
-    TextView dataTextView;
     OrbitDataBundle dataBundle = new OrbitDataBundle();
 
     @Override
@@ -31,7 +30,6 @@ public class SaveFileActivity extends Activity {
 
 
 
-        dataTextView = (TextView) findViewById(R.id.textViewData);
         saveButton = (Button) findViewById(R.id.buttonSaveNewEntry);
         nameEdit = (EditText) findViewById(R.id.editTextName);
         commentEdit = (EditText) findViewById(R.id.editTextComment);
@@ -42,7 +40,6 @@ public class SaveFileActivity extends Activity {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             dataBundle = (OrbitDataBundle) bundle.get("data");
-            dataTextView.setText(dataBundle.getName());
             nameEdit.setText((CharSequence) dataBundle.getName());
             commentEdit.setText((CharSequence) dataBundle.getComment());
         }
@@ -68,6 +65,16 @@ public class SaveFileActivity extends Activity {
             }
         });
 
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
 }
