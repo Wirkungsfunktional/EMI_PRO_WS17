@@ -94,7 +94,7 @@
                     android:text="@string/perspectiveButtonLabel"
                     android:visibility="invisible" />
 
-            </LinearLayout>
+            </LinearLayout>-->
 
             <LinearLayout
                 android:id="@+id/seekBarLayer"
@@ -241,7 +241,7 @@
 
             </LinearLayout>
 
-        </LinearLayout>-->
+        <!---</LinearLayout>-->
 
         <SeekBar
             android:id="@+id/seekBarSlice"
