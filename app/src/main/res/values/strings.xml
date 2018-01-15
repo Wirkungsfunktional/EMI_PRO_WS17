@@ -3,13 +3,17 @@
     <string name="sliceOptionButtonLabel">Slice Option</string>
     <string name="minusOptionButtonLabel">Minus Option</string>
     <string name="switchPlotOpionLabel">Switch the Plot Option</string>
-    <string name="savedFileButtonLabel">Saved File</string>
+    <string name="savedFileButtonLabel">Save Data</string>
     <string name="perspectiveButtonLabel">Change Perspective</string>
     <string name="textViewNameLabel">Name</string>
     <string name="textViewCommentLabel">Insert Comment</string>
     <string name="buttonSaveNewEntryLabel">Save</string>
-    <string name="loadFileButton">Load</string>
+    <string name="loadFileButton">Load Data</string>
     <string name="buttonDeleteFilesLabel">Delete All Files</string>
     <string name="buttonLoadDataLabel">Load File</string>
     <string name="buttonShowCommentLabel">Comment</string>
+
+    <string name="sliceOptionSwitch">Slice Option</string>
+    <string name="plainViewLabel">Plain View</string>
+    <string name="imprintLabel">Quellen / Impressum</string>
 </resources>

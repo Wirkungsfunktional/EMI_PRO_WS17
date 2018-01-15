@@ -8,6 +8,11 @@ import android.content.Intent;
 import android.content.pm.ConfigurationInfo;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -37,6 +42,9 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
     private Button showCommentButton;
     private Simulator simulator;
     private OrbitDataBundle currentData = new OrbitDataBundle();
+    private NavigationView mNavigationView;
+    private DrawerLayout mDrawerLayout;
+
 
 
     @Override
@@ -65,6 +73,49 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
         frameLayout.addView(glSurfaceView, 0);
 
 
+        /*mNavigationView = (NavigationView) findViewById(R.id.navigation);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mNavigationView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getBaseContext(),"Calling OnClick", Toast.LENGTH_LONG).show();
+            }
+        });*/
+
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mNavigationView = (NavigationView) findViewById(R.id.navigation);
+        mNavigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        item.setChecked(true);
+                        MenuItem itemSelected = item;
+                        mDrawerLayout.closeDrawers();
+
+                        switch (item.getItemId()) {
+                            case R.id.loadFileButton:
+                                startFileSelection();
+                                return true;
+                            case R.id.savedFileButtonLabel:
+                                Intent intent = new Intent(getApplicationContext(), SaveFileActivity.class);
+                                intent.putExtra("data", currentData);
+                                startActivity(intent);
+                                return true;
+                            case R.id.sliceOptionSwitch:
+                                simulator.switchSliceOption();
+                                Toast.makeText(getApplicationContext(), "Change the Plot Option", Toast.LENGTH_LONG).show();
+                                return true;
+                            case R.id.imprintLabel:
+                                Toast.makeText(getApplicationContext(), "Imprint", Toast.LENGTH_LONG).show();
+                                return true;
+                        }
+                        return true;
+                    }
+
+                }
+        );
+
 
         for (int i=0; i<NUMBER_OF_SEEK_BARS;i++) {
             int resID = getResources().getIdentifier(seekBarID[i], "id", getPackageName());
@@ -74,7 +125,7 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
         }
         textView1 = (TextView) findViewById(R.id.textShow);
 
-        sliceOptionButton = findViewById(R.id.sliceOptionButton);
+        /*sliceOptionButton = findViewById(R.id.sliceOptionButton);
         sliceOptionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -125,7 +176,7 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
             public void onClick(View view) {
                 startCommentDialog();
             }
-        });
+        });*/
     }
 
     private void startCommentDialog() {
@@ -253,10 +304,4 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
     public void onStopTrackingTouch(SeekBar seekBar) {
         //openGLRenderer.updateData(q1, q2, p1, p2);
     }
-
-
-
-
-
-
 }
