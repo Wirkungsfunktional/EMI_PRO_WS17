@@ -13,6 +13,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.OrientationEventListener;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -180,16 +181,24 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
     }
 
     private void startCommentDialog() {
-        FragmentManager manager = getFragmentManager();
-        ShowCommentDialog dialog = new ShowCommentDialog();
-        dialog.show(manager, "Test");
+        Intent intent = new Intent(getApplicationContext(), CommentView.class);
+        intent.putExtra("data", currentData);
+        startActivityForResult(intent, GeneralConstants.REQUEST_CODE_COMMMENT_ACTIVITY);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent OrbitData) {
         if (requestCode == GeneralConstants.REQUEST_CODE_LOAD_ACTIVITY) {
             if (resultCode == RESULT_OK) {
                 currentData = (OrbitDataBundle) OrbitData.getExtras().get("loadData");
-                textView1.setText("Joo klapt");
+                simulator.setInitData(currentData);
+                openGLRenderer.updateData(simulator);
+                setSliderPosition(currentData);
+            }
+        }
+        if (requestCode == GeneralConstants.REQUEST_CODE_COMMMENT_ACTIVITY) {
+            if (requestCode == RESULT_OK) {
+                currentData = (OrbitDataBundle) OrbitData.getExtras().get("loadData");
                 simulator.setInitData(currentData);
                 openGLRenderer.updateData(simulator);
                 setSliderPosition(currentData);

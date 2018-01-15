@@ -109,6 +109,92 @@ class OpenGLRenderer implements GLSurfaceView.Renderer, SensorEventListener {
         pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +16] =  0f;
         pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +17] =  1f;
 
+        float lw = 0.5f;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +18] =  lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +19] =  lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +20] =  lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +21] =  -lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +22] =  lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +23] =  lw;
+
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +24] =  lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +25] =  lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +26] =  lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +27] =  lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +28] =  -lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +29] =  lw;
+
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +30] =  lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +31] =  lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +32] =  lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +33] =  lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +34] =  lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +35] =  -lw;
+
+
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +36] =  -lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +37] =  lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +38] =  lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +39] =  -lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +40] =  -lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +41] =  lw;
+
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +42] =  -lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +43] =  lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +44] =  lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +45] =  -lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +46] =  lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +47] =  -lw;
+
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +48] =  -lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +49] =  -lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +50] =  lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +51] =  -lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +52] =  -lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +53] =  -lw;
+
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +54] =  -lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +55] =  -lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +56] =  lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +57] =  lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +58] =  -lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +59] =  lw;
+
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +60] =  lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +61] =  -lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +62] =  -lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +63] =  lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +64] =  lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +65] =  -lw;
+
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +66] =  lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +67] =  -lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +68] =  -lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +69] =  lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +70] =  -lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +71] =  lw;
+
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +72] =  lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +73] =  -lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +74] =  -lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +75] =  -lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +76] =  -lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +77] =  -lw;
+
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +78] =  -lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +79] =  lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +80] =  -lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +81] =  -lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +82] =  -lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +83] =  -lw;
+
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +84] =  -lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +85] =  lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +86] =  -lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +87] =  lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +88] =  lw;
+        pointArray[GeneralConstants.POSITION_COMPONENT_COUNT * NUMBER_OF_POINTS +89] =  -lw;
+
 
 
         vertexData = ByteBuffer
@@ -179,7 +265,7 @@ class OpenGLRenderer implements GLSurfaceView.Renderer, SensorEventListener {
         float[] tmp = new float[16];
 
         long time = SystemClock.uptimeMillis() % 1000000L;
-        float angle1 = 0.009f  * ((int) time);
+        float angle1 = 0.009f * ((int) time);
         Matrix.setRotateM(mRotationMatrix1, 0, angle1, x/10f, y/10f, z/10f);
 
 
@@ -191,9 +277,9 @@ class OpenGLRenderer implements GLSurfaceView.Renderer, SensorEventListener {
         glDrawArrays(GL_POINTS, 0, NUMBER_OF_POINTS);
 
         glUniform4f(uColorLocation, 1.0f, 1.0f, 1.0f, 1.0f);
-        glDrawArrays(GL_LINES, NUMBER_OF_POINTS, 2);
-        glDrawArrays(GL_LINES, NUMBER_OF_POINTS+2, 2);
-        glDrawArrays(GL_LINES, NUMBER_OF_POINTS+4, 2);
+        for (int i = 3; i<GeneralConstants.NUMBER_OF_LINES/2; i++) {
+            glDrawArrays(GL_LINES, NUMBER_OF_POINTS+2*i, 2);
+        }
     }
 
     @Override

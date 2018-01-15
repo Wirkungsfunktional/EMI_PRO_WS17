@@ -16,6 +16,8 @@ public class GeneralConstants {
     public static final String HYPERBOLIC_ELLIPTIC_STRING = "Hyperbolic Elliptic";
     public static final String HYPERBOLIC_HYPERBOLIC_STRING = "Hyperbolic Hyperbolic";
     public static final int REQUEST_CODE_LOAD_ACTIVITY = 1;
+    public static final int REQUEST_CODE_COMMMENT_ACTIVITY = 1;
+    public static final int NUMBER_OF_LINES = 2 * (15);
     public static int POSITION_COMPONENT_COUNT = 3;
     public static final int PRECI_OF_SEEK_BARS = 100000;
     public static final float P_INTERVALL_START = -0.5f;
@@ -32,6 +34,11 @@ public class GeneralConstants {
     public static final int ITERATIONS = 1000;
 
 
+    /**
+     * Decode the integer for the StabilityState into the corresponding string
+     * @param state
+     * @return String name of the StabilityState
+     */
     public static String decodeStabilityState(int state) {
         switch (state) {
             case COMPLEX_UNSTABLE:
@@ -47,4 +54,6 @@ public class GeneralConstants {
         }
         return "";
     }
+
+
 }

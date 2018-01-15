@@ -13,7 +13,7 @@ public class OrbitDataBundle implements Serializable {
 
     private float[] orbitPoints = new float[4];                // q1, q2, p1, p2
     private float[] simulationSettings = new float[3];         // A, K1, K2
-    private int[] simulationOptions = new int[2];            // slice, minus
+    private int[] simulationOptions = new int[2];              // slice, minus
     float pSlice;
     private float[] space = new float[3];
 

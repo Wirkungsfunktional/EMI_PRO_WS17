@@ -89,4 +89,13 @@ public class FileSelection extends Activity {
         ArrayAdapter arrayAdapter=new ArrayAdapter(this,android.R.layout.simple_list_item_1, array_list);
         listView.setAdapter(arrayAdapter);
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 }

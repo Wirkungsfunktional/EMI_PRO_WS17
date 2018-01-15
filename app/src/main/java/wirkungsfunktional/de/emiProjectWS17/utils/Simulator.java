@@ -29,12 +29,15 @@ public class Simulator {
     public Simulator(int Iterations) {
         NUMBER_OF_POINTS = Iterations;
         dataArray = new float[(GeneralConstants.POSITION_COMPONENT_COUNT + 0) * NUMBER_OF_POINTS
-                                + (GeneralConstants.POSITION_COMPONENT_COUNT + 0)*6];
+                                + (GeneralConstants.POSITION_COMPONENT_COUNT + 0)*GeneralConstants.NUMBER_OF_LINES];
         initData = new OrbitDataBundle();
 
     }
 
-
+    /**
+     * Compute the orbit for a given initial condition into an array. The scaling for the
+     * visualisation is due to performance included.
+     */
     private void calcData() {
         dataArray[0] = initPoints[0];
         dataArray[1] = initPoints[1];
@@ -91,7 +94,11 @@ public class Simulator {
                         * GeneralConstants.SCALING_FACTOR;
     }
 
-
+    /**
+     * Compute the SliceView of given initial conditions and put the result in the array. This
+     * function is sometimes unpredictable timeconsumable due to the physics of the problem and
+     * therefore it has an check whether it should stop.
+     */
     private void makeSlice() {
         float q1, q2, p1, p2;
         int i = 0;
@@ -143,7 +150,9 @@ public class Simulator {
         }
     }
 
-
+    /**
+     * Split the initData into local attributes.
+     */
     private void unpackOrbitDataBundle() {
         initPoints = initData.getOrbitPoints();
         simSettings = initData.getSimulationSettings();
@@ -153,6 +162,11 @@ public class Simulator {
         space[2] = initData.getZ();
     }
 
+
+    /**
+     * Method to compute the stability of a fixed point of the standard map. It set the
+     * stabilityState of the class by a given initial condition to the corresponding state.
+     */
     private void stabilityAnalysis() {
         float[][] L = SpecialMatrixContainer.linearMap(0.5f,0.5f, 0.0f, 0.0f,
                 simSettings[0], simSettings[1], simSettings[2], (float) simOptions[1]);
@@ -180,6 +194,10 @@ public class Simulator {
         }
     }
 
+    /**
+     * Start the computation in dependence of the selected mode, after unpacking the initial
+     * condition. Afterwards it run a Stability analysis.
+     */
     public void run() {
         unpackOrbitDataBundle();
         switch (simOptions[0]) {
@@ -194,23 +212,19 @@ public class Simulator {
     }
 
 
-
+    // TODO: sort the method into set and get
     public float[] getDataArray() {
         return dataArray;
     }
-
     public void setDataArray(float[] dataArray) {
         this.dataArray = dataArray;
     }
-
     public OrbitDataBundle getInitData() {
         return initData;
     }
-
     public void setInitData(OrbitDataBundle initData) {
         this.initData = initData;
     }
-
     public void switchSliceOption() {
         if (initData.getSlice() == GeneralConstants.NORMAL_PLOT_FLAG) {
             initData.setSlice(GeneralConstants.SLICE_PLOT_FLAG);
@@ -229,15 +243,12 @@ public class Simulator {
             return;
         }
     }
-
     public static int getNumberOfPoints() {
         return NUMBER_OF_POINTS;
     }
-
     public static void setNumberOfPoints(int numberOfPoints) {
         NUMBER_OF_POINTS = numberOfPoints;
     }
-
     public void setPerspective() {
         if (parallelPerspectiveActive) {
             parallelPerspectiveActive = false;
@@ -245,12 +256,9 @@ public class Simulator {
             parallelPerspectiveActive = true;
         }
     }
-
     public int getStabilityState() {
         return stabilityState;
     }
-
-
     public void setStabilityState(int stabilityState) {
         this.stabilityState = stabilityState;
     }

@@ -1,72 +1,67 @@
 package wirkungsfunktional.de.emiProjectWS17;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import wirkungsfunktional.de.emiProjectWS17.utils.DataBaseContainer;
 import wirkungsfunktional.de.emiProjectWS17.utils.OrbitDataBundle;
 
+
 /**
- * Created by mk on 29.11.17.
+ * Created by mk on 31.12.17.
  */
 
-public class SaveFileActivity extends Activity {
-    Button      saveButton;
-    EditText    nameEdit,
-                commentEdit;
-    DataBaseContainer db;
+public class CommentView extends Activity {
+    private Button changeButton;
+    private EditText commentBox;
     OrbitDataBundle dataBundle = new OrbitDataBundle();
+    DataBaseContainer db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.create_new_data_entry_layout);
+        setContentView(R.layout.comment_layout);
+
         db = new DataBaseContainer(this);
 
-
-
-        saveButton = (Button) findViewById(R.id.buttonSaveNewEntry);
-        nameEdit = (EditText) findViewById(R.id.editTextName);
-        commentEdit = (EditText) findViewById(R.id.editTextComment);
-
-
+        commentBox = (EditText) findViewById(R.id.commentEditBox);
+        changeButton = (Button) findViewById(R.id.changeButton);
 
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             dataBundle = (OrbitDataBundle) bundle.get("data");
-            nameEdit.setText((CharSequence) dataBundle.getName());
-            commentEdit.setText((CharSequence) dataBundle.getComment());
+            commentBox.setText(dataBundle.getComment());
         }
 
-
-        saveButton.setOnClickListener(new View.OnClickListener() {
+        changeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //OrbitDataBundle data = new OrbitDataBundle();
-                dataBundle.setName(nameEdit.getText().toString());
-                dataBundle.setComment(commentEdit.getText().toString());
+                dataBundle.setComment(commentBox.getText().toString());
 
-
+                db.deleteDataByName(dataBundle.getName());
                 if(db.insertEntry(dataBundle)){
-                          Toast.makeText(getApplicationContext(), "done",
+                          Toast.makeText(getApplicationContext(), "Update Comment",
                                    Toast.LENGTH_SHORT).show();
                     } else {
-                       Toast.makeText(getApplicationContext(), "not done",
+                       Toast.makeText(getApplicationContext(), "ERROR in CommentView",
                                Toast.LENGTH_SHORT).show();
                     }
-                finish();
 
+
+                Intent data = new Intent();
+                data.putExtra("loadData", dataBundle);
+                setResult(Activity.RESULT_OK, data);
+                finish();
             }
         });
 
     }
-
 
     @Override
     protected void onPause() {
@@ -76,5 +71,10 @@ public class SaveFileActivity extends Activity {
     protected void onResume() {
         super.onResume();
     }
+
+
+
+
+
 
 }
