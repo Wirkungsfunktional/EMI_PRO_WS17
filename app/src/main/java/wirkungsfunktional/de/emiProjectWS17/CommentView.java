@@ -17,7 +17,7 @@ import wirkungsfunktional.de.emiProjectWS17.utils.OrbitDataBundle;
  */
 
 public class CommentView extends Activity {
-    private Button changeButton;
+    private Button changeButton, btn;
     private EditText commentBox;
     OrbitDataBundle dataBundle = new OrbitDataBundle();
     DataBaseContainer db;
@@ -31,6 +31,7 @@ public class CommentView extends Activity {
 
         commentBox = (EditText) findViewById(R.id.commentEditBox);
         changeButton = (Button) findViewById(R.id.changeButton);
+        btn =(Button) findViewById(R.id.button2);
 
 
         Bundle bundle = getIntent().getExtras();
@@ -58,6 +59,19 @@ public class CommentView extends Activity {
                 data.putExtra("loadData", dataBundle);
                 setResult(Activity.RESULT_OK, data);
                 finish();
+            }
+        });
+
+
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent shareintent = new Intent();
+                shareintent.setAction(Intent.ACTION_SEND);
+                shareintent.putExtra(Intent.EXTRA_TEXT, commentBox.getText().toString());
+                shareintent.setType("text/plain");
+                startActivity(shareintent);
             }
         });
 

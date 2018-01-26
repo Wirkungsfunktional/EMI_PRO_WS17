@@ -13,6 +13,10 @@
         app:showAsAction="always"
         android:titleCondensed="2" />
     <item
+        android:id="@+id/changeSpaceParamID"
+        android:title="Phase space / Parameter space"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/sliceOptionSwitch"
         android:title="@string/sliceOptionSwitch"
         app:showAsAction="always"

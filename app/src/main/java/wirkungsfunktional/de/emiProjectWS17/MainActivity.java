@@ -2,7 +2,6 @@ package wirkungsfunktional.de.emiProjectWS17;
 
 import android.app.Activity;
 import android.app.ActivityManager;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ConfigurationInfo;
@@ -11,9 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.view.OrientationEventListener;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -23,28 +20,25 @@ import android.widget.Toast;
 
 import wirkungsfunktional.de.emiProjectWS17.utils.GeneralConstants;
 import wirkungsfunktional.de.emiProjectWS17.utils.OrbitDataBundle;
-import wirkungsfunktional.de.emiProjectWS17.utils.ShowCommentDialog;
 import wirkungsfunktional.de.emiProjectWS17.utils.Simulator;
 
 public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeListener {
     private GLSurfaceView glSurfaceView;
     private boolean rendererSet = false;
-    private TextView textView1;
     private OpenGLRenderer openGLRenderer;
-    private static final int NUMBER_OF_SEEK_BARS = 11;
+    private static final int NUMBER_OF_SEEK_BARS = 8;
     private SeekBar[] seekBarsList = new SeekBar[NUMBER_OF_SEEK_BARS];
     private String[] seekBarID = {"seekBarQ1", "seekBarP1","seekBarQ2", "seekBarP2", "seekBarK",
-            "seekBarK1", "seekBarK2", "seekBarSlice", "seekBarSpaceX","seekBarSpaceY","seekBarSpaceZ"};
-    private Button sliceOptionButton;
-    private Button minusOptionButton;
-    private Button savedFileButton;
-    private Button perspectiveButton;
-    private Button loadButton;
+            "seekBarK1", "seekBarK2", "seekBarSlice"};
     private Button showCommentButton;
     private Simulator simulator;
     private OrbitDataBundle currentData = new OrbitDataBundle();
     private NavigationView mNavigationView;
     private DrawerLayout mDrawerLayout;
+    private View spaceSliderView, paramSliderView, sliceSliderView;
+    private int spaceParamActive = 0;
+    private static final int NUMBER_OF_TEXT_VIEWS = 7;
+    private TextView[] parameterView = new TextView[NUMBER_OF_TEXT_VIEWS];
 
 
 
@@ -73,21 +67,14 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
         FrameLayout frameLayout = (FrameLayout) findViewById(R.id.mainLayout);
         frameLayout.addView(glSurfaceView, 0);
 
+        spaceSliderView = findViewById(R.id.spaceSliderView);
+        paramSliderView = findViewById(R.id.paramSliderView);
 
-        /*mNavigationView = (NavigationView) findViewById(R.id.navigation);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mNavigationView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getBaseContext(),"Calling OnClick", Toast.LENGTH_LONG).show();
-            }
-        });*/
 
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mNavigationView = (NavigationView) findViewById(R.id.navigation);
-        mNavigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
+        mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         item.setChecked(true);
@@ -103,6 +90,18 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
                                 intent.putExtra("data", currentData);
                                 startActivity(intent);
                                 return true;
+                            case R.id.changeSpaceParamID:
+                                if (spaceParamActive == 0){
+                                    spaceParamActive = 1;
+                                    spaceSliderView.setVisibility(View.INVISIBLE);
+                                    paramSliderView.setVisibility(View.VISIBLE);
+                                } else {
+                                    spaceParamActive = 0;
+                                    spaceSliderView.setVisibility(View.VISIBLE);
+                                    paramSliderView.setVisibility(View.INVISIBLE);
+                                }
+
+                                return true;
                             case R.id.sliceOptionSwitch:
                                 simulator.switchSliceOption();
                                 Toast.makeText(getApplicationContext(), "Change the Plot Option", Toast.LENGTH_LONG).show();
@@ -114,8 +113,7 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
                         return true;
                     }
 
-                }
-        );
+                });
 
 
         for (int i=0; i<NUMBER_OF_SEEK_BARS;i++) {
@@ -124,52 +122,22 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
             seekBarsList[i].setMax(GeneralConstants.PRECI_OF_SEEK_BARS);
             seekBarsList[i].setOnSeekBarChangeListener(this);
         }
-        textView1 = (TextView) findViewById(R.id.textShow);
 
-        /*sliceOptionButton = findViewById(R.id.sliceOptionButton);
-        sliceOptionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                simulator.switchSliceOption();
-                Toast.makeText(getApplicationContext(), "Change the Plot Option", Toast.LENGTH_LONG).show();
+        parameterView[0] = findViewById(R.id.textViewQ1);
+        parameterView[1] = findViewById(R.id.textViewP1);
+        parameterView[2] = findViewById(R.id.textViewQ2);
+        parameterView[3] = findViewById(R.id.textViewP2);
+        parameterView[4] = findViewById(R.id.textViewA);
+        parameterView[5] = findViewById(R.id.textViewK1);
+        parameterView[6] = findViewById(R.id.textViewK2);
 
-            }
-        });
-        minusOptionButton = findViewById(R.id.minusOptionButton);
-        minusOptionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                simulator.switchMinusOption();
-                Toast.makeText(getApplicationContext(), "Change the Sign Option", Toast.LENGTH_LONG).show();
-            }
-        });
-
-        savedFileButton = (Button) findViewById(R.id.savedFileButton);
-        savedFileButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), SaveFileActivity.class);
-                intent.putExtra("data", currentData);
-                startActivity(intent);
-                //startSaveFileActivity();
-            }
-        });
-
-        loadButton = (Button) findViewById(R.id.loadFileButton);
-        loadButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startFileSelection();
-            }
-        });
-
-        perspectiveButton = (Button) findViewById(R.id.perspectiveButton);
-        perspectiveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                simulator.setPerspective();
-            }
-        });
+        parameterView[0].setText("Q1 = 0.0");
+        parameterView[1].setText("P1 = 0.0");
+        parameterView[2].setText("Q2 = 0.0");
+        parameterView[3].setText("P2 = 0.0");
+        parameterView[4].setText("A  = 0.0");
+        parameterView[5].setText("K1 = 0.0");
+        parameterView[6].setText("K2 = 0.0");
 
         showCommentButton = (Button) findViewById(R.id.buttonShowComment);
         showCommentButton.setOnClickListener(new View.OnClickListener() {
@@ -177,7 +145,7 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
             public void onClick(View view) {
                 startCommentDialog();
             }
-        });*/
+        });
     }
 
     private void startCommentDialog() {
@@ -275,15 +243,6 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
             case R.id.seekBarSlice:
                 data.setpSlice(value + GeneralConstants.P_INTERVALL_START);
                 break;
-            case R.id.seekBarSpaceX:
-                data.setX(value + GeneralConstants.P_INTERVALL_START);
-                break;
-            case R.id.seekBarSpaceY:
-                data.setY(value + GeneralConstants.P_INTERVALL_START);
-                break;
-            case R.id.seekBarSpaceZ:
-                data.setZ(value + GeneralConstants.P_INTERVALL_START);
-                break;
         }
         simulator.setInitData(data);
         currentData = data;
@@ -293,15 +252,16 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
         float[] orbitInitPoints = data.getOrbitPoints();
         float[] orbitInitSetting = data.getSimulationSettings();
         int stabilityState = simulator.getStabilityState();
-        textView1.setText(  "q1: " + orbitInitPoints[0] + " " +             //TODO: Make String write Function
-                            "q2: " + orbitInitPoints[1] + " " +
-                            "p1: " + orbitInitPoints[2] + " " +
-                            "p2: " + orbitInitPoints[3] + " " +
-                            "A: " + orbitInitSetting[0] + " " +
-                            "K1: " + orbitInitSetting[1] + " " +
-                            "K2: " + orbitInitSetting[2] + " " +
-                            "Stability: " + GeneralConstants.decodeStabilityState(stabilityState)
-        );
+
+        parameterView[0].setText("Q1 = " + orbitInitPoints[0]);
+        parameterView[1].setText("P1 = " + orbitInitPoints[2]);
+        parameterView[2].setText("Q2 = " + orbitInitPoints[1]);
+        parameterView[3].setText("P2 = " + orbitInitPoints[3]);
+        parameterView[4].setText("A  = " + orbitInitSetting[0]);
+        parameterView[5].setText("K1 = " + orbitInitSetting[1]);
+        parameterView[6].setText("K2 = " + orbitInitSetting[2]);
+
+
     }
 
     @Override
