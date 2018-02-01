@@ -37,9 +37,19 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
     private DrawerLayout mDrawerLayout;
     private View spaceSliderView, paramSliderView, sliceSliderView;
     private int spaceParamActive = 0;
-    private static final int NUMBER_OF_TEXT_VIEWS = 7;
+    private static final int NUMBER_OF_TEXT_VIEWS = 8;
     private TextView[] parameterView = new TextView[NUMBER_OF_TEXT_VIEWS];
-
+    private int textCount = 0;
+    private String[] easterEggs = {
+            "No permission to enter here. All your malicious activities will be immediately reported to the almighty " +
+                    "Bundesamt für Sicherheit und Informationstechnik. Please wait until the Cyberforce arrives to arrest you!",
+            "Allmost everything is better with access to the cloud.",
+            "And with Deep Learning it gets even better.",
+            "Then we are performing some Gamification of Social Networks, like China in 2020.",
+            "And nobody complains...",
+            "When machines starts dreaming.",
+            "But dont be afraid, the Internetz is Neuland for all of us."
+    };
 
 
     @Override
@@ -104,11 +114,19 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
                                 return true;
                             case R.id.sliceOptionSwitch:
                                 simulator.switchSliceOption();
-                                Toast.makeText(getApplicationContext(), "Change the Plot Option", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), "Change the Slice Option", Toast.LENGTH_LONG).show();
                                 return true;
+                            case R.id.minusOptionSwitch:
+                                simulator.switchMinusOption();
+                                Toast.makeText(getApplicationContext(), "Change the Minus Option", Toast.LENGTH_LONG).show();
+                                return true;
+
                             case R.id.imprintLabel:
-                                Toast.makeText(getApplicationContext(), "Imprint", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), easterEggs[textCount % easterEggs.length], Toast.LENGTH_LONG).show();
+
+                                textCount += 1;
                                 return true;
+
                         }
                         return true;
                     }
@@ -130,6 +148,7 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
         parameterView[4] = findViewById(R.id.textViewA);
         parameterView[5] = findViewById(R.id.textViewK1);
         parameterView[6] = findViewById(R.id.textViewK2);
+        parameterView[7] = findViewById(R.id.textViewStability);
 
         parameterView[0].setText("Q1 = 0.0");
         parameterView[1].setText("P1 = 0.0");
@@ -138,6 +157,7 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
         parameterView[4].setText("A  = 0.0");
         parameterView[5].setText("K1 = 0.0");
         parameterView[6].setText("K2 = 0.0");
+        parameterView[7].setText("Stability");
 
         showCommentButton = (Button) findViewById(R.id.buttonShowComment);
         showCommentButton.setOnClickListener(new View.OnClickListener() {
@@ -260,7 +280,7 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
         parameterView[4].setText("A  = " + orbitInitSetting[0]);
         parameterView[5].setText("K1 = " + orbitInitSetting[1]);
         parameterView[6].setText("K2 = " + orbitInitSetting[2]);
-
+        parameterView[7].setText(GeneralConstants.decodeStabilityState(stabilityState));
 
     }
 

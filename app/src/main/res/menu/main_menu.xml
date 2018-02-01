@@ -21,6 +21,11 @@
         android:title="@string/sliceOptionSwitch"
         app:showAsAction="always"
         android:checkable="true"/>
+     <item
+        android:id="@+id/minusOptionSwitch"
+        android:title="@string/minusOptionSwitch"
+        app:showAsAction="always"
+        android:checkable="true"/>
     <item
         android:id="@+id/imprintLabel"
         android:title="@string/imprintLabel"
